@@ -363,22 +363,15 @@
       
         
           
-            <h2 id="Java-Virtual-Machines"><a href="#Java-Virtual-Machines" class="headerlink" title="Java Virtual Machines"></a>Java Virtual Machines</h2><p>The Java virtual machine is an abstract computing machine that has an instruction set and manipulates memory at run time. The Java virtual machine is ported to different platforms to provide hardware- and operating system-independence.</p>
-<p>Java虚拟机是一种抽象计算机，具有自己的指令集，能在程序运行时操作内存。Java虚拟机独立于操作系统和硬件设备，可以移植到不同的平台，</p>
-<p>The Java Platform, Standard Edition provides two implementations of the Java virtual machine (VM):</p>
-<p>Java虚拟机有两种实现：</p>
-<h3 id="Java-HotSpot-Client-VM"><a href="#Java-HotSpot-Client-VM" class="headerlink" title="Java HotSpot Client VM"></a>Java HotSpot Client VM</h3><p>The client VM is an implementation for platforms typically used for client applications. The client VM is tuned for reducing start-up time and memory footprint. It can be invoked by using the <code>-client</code> command-line option when launching an application.</p>
-<p>client VM 的实现通常用于用户应用。这种虚拟机实现优化了启动耗时和内存占用。它可以通过<code>-client</code> 命令启动。</p>
-<h3 id="Java-HotSpot-Server-VM"><a href="#Java-HotSpot-Server-VM" class="headerlink" title="Java HotSpot Server VM"></a>Java HotSpot Server VM</h3><p>The server VM is an implementation designed for maximum program execution speed, trading off launch time and memory. It can be invoked by using the <code>-server</code> command-line option when launching an application.</p>
-<p>server VM 的实现是为了获取最大的程序运行速度，所以相应的牺牲了启动时间和内存占用。它可以通过<code>-server</code> 命令启动。</p>
-<h3 id="Java-SE-Runtime-Environment-JRE"><a href="#Java-SE-Runtime-Environment-JRE" class="headerlink" title="Java SE Runtime Environment (JRE)"></a>Java SE Runtime Environment (JRE)</h3><p>The JRE provides the libraries, Java virtual machine, and other components necessary for you to <em>run</em> applets and applications written in the Java programming language. </p>
-<p>JRE 包含一些库、JVM和其他用于运行applet或者application的组件。</p>
-<h3 id="Java-SE-Development-Kit-JDK"><a href="#Java-SE-Development-Kit-JDK" class="headerlink" title="Java SE Development Kit (JDK)"></a>Java SE Development Kit (JDK)</h3><p>The JDK includes the JRE plus command-line development tools such as compilers and debuggers that are necessary or useful for <em>developing</em> applets and applications.</p>
-<p>JDK包括JRE，另外还有一些诸如编译器，调试器等开发时用到的命令行工具。</p>
-<p><img src="../images/JRE_JDK_JVM_2.png" alt="interpreter and runtime "></p>
-<p><img src="../images/JRE_JDK_JVM_4.png" alt="interaction"></p>
-
-          
+          Java Virtual MachinesThe Java virtual machine is an abstract computing machine that has an instruction set and manipulates memory at run time. The Jav
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/03/JVM-JRE-和JDK/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -512,8 +505,15 @@
       
         
           
-            
           
+          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/09/24/搭窝/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -647,17 +647,15 @@
       
         
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
+          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in 
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/09/24/hello-world/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
