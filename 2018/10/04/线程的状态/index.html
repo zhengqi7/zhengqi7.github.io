@@ -108,18 +108,18 @@
 
 
 
-  <meta name="description" content="#线程的三种状态 运行、就绪、阻塞。 JVM中定义的线程状态 12public static enum Thread.Stateextends Enum&amp;lt;Thread.State&amp;gt; A thread state. A thread can be in one of the following states: ##NEWA thread that has not yet started">
+  <meta name="description" content="线程的三种状态运行、就绪、阻塞。 JVM中定义的线程状态 12public static enum Thread.Stateextends Enum&amp;lt;Thread.State&amp;gt; A thread state. A thread can be in one of the following states: NEWA thread that has not yet started is i">
 <meta property="og:type" content="article">
 <meta property="og:title" content="线程的状态">
 <meta property="og:url" content="http://yoursite.com/2018/10/04/线程的状态/index.html">
 <meta property="og:site_name" content="Qi&#39;s Blog">
-<meta property="og:description" content="#线程的三种状态 运行、就绪、阻塞。 JVM中定义的线程状态 12public static enum Thread.Stateextends Enum&amp;lt;Thread.State&amp;gt; A thread state. A thread can be in one of the following states: ##NEWA thread that has not yet started">
+<meta property="og:description" content="线程的三种状态运行、就绪、阻塞。 JVM中定义的线程状态 12public static enum Thread.Stateextends Enum&amp;lt;Thread.State&amp;gt; A thread state. A thread can be in one of the following states: NEWA thread that has not yet started is i">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/images/Thread%20States.png">
-<meta property="og:updated_time" content="2018-10-04T06:31:18.763Z">
+<meta property="og:updated_time" content="2018-10-04T06:32:39.509Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="线程的状态">
-<meta name="twitter:description" content="#线程的三种状态 运行、就绪、阻塞。 JVM中定义的线程状态 12public static enum Thread.Stateextends Enum&amp;lt;Thread.State&amp;gt; A thread state. A thread can be in one of the following states: ##NEWA thread that has not yet started">
+<meta name="twitter:description" content="线程的三种状态运行、就绪、阻塞。 JVM中定义的线程状态 12public static enum Thread.Stateextends Enum&amp;lt;Thread.State&amp;gt; A thread state. A thread can be in one of the following states: NEWA thread that has not yet started is i">
 <meta name="twitter:image" content="http://yoursite.com/images/Thread%20States.png">
 
 
@@ -324,7 +324,7 @@
                 
               
 
-              <time title="Created: 2018-10-04 07:51:01 / Modified: 08:31:18" itemprop="dateCreated datePublished" datetime="2018-10-04T07:51:01+02:00">2018-10-04</time>
+              <time title="Created: 2018-10-04 07:51:01 / Modified: 08:32:39" itemprop="dateCreated datePublished" datetime="2018-10-04T07:51:01+02:00">2018-10-04</time>
             
 
             
@@ -362,20 +362,19 @@
       
 
       
-        <p>#线程的三种状态</p>
-<p>运行、就绪、阻塞。</p>
+        <h1 id="线程的三种状态"><a href="#线程的三种状态" class="headerlink" title="线程的三种状态"></a>线程的三种状态</h1><p>运行、就绪、阻塞。</p>
 <h1 id="JVM中定义的线程状态"><a href="#JVM中定义的线程状态" class="headerlink" title="JVM中定义的线程状态"></a>JVM中定义的线程状态</h1><p><img src="/images/Thread States.png" alt="img"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">public static enum Thread.State</span><br><span class="line">extends Enum&lt;Thread.State&gt;</span><br></pre></td></tr></table></figure>
 <p>A thread state. A thread can be in one of the following states:</p>
-<p>##<code>NEW</code><br>A thread that has not yet started is in this state.</p>
-<p>##<code>RUNNABLE</code><br>A thread executing in the Java virtual machine is in this state.</p>
-<p>##<code>BLOCKED</code><br>A thread that is blocked waiting for a monitor lock is in this state.</p>
+<h2 id="NEW"><a href="#NEW" class="headerlink" title="NEW"></a><code>NEW</code></h2><p>A thread that has not yet started is in this state.</p>
+<h2 id="RUNNABLE"><a href="#RUNNABLE" class="headerlink" title="RUNNABLE"></a><code>RUNNABLE</code></h2><p>A thread executing in the Java virtual machine is in this state.</p>
+<h2 id="BLOCKED"><a href="#BLOCKED" class="headerlink" title="BLOCKED"></a><code>BLOCKED</code></h2><p>A thread that is blocked waiting for a monitor lock is in this state.</p>
 <p> 对应”阻塞”状态，此线程需要获得某个锁才能继续执行，而这个锁目前被其他线程持有，所以进入了被动的等待状态，直到抢到了那个锁，才会再次进入”就绪”状态。</p>
-<p>##<code>WAITING</code><br>A thread that is waiting indefinitely for another thread to perform a particular action is in this state.</p>
+<h2 id="WAITING"><a href="#WAITING" class="headerlink" title="WAITING"></a><code>WAITING</code></h2><p>A thread that is waiting indefinitely for another thread to perform a particular action is in this state.</p>
 <p>对应”阻塞”状态，代表此线程正处于无限期的主动等待中，直到有人唤醒它，它才会再次进入就绪状态。</p>
-<p>##<code>TIMED_WAITING</code><br>A thread that is waiting for another thread to perform an action for up to a specified waiting time is in this state.</p>
+<h2 id="TIMED-WAITING"><a href="#TIMED-WAITING" class="headerlink" title="TIMED_WAITING"></a><code>TIMED_WAITING</code></h2><p>A thread that is waiting for another thread to perform an action for up to a specified waiting time is in this state.</p>
 <p>对应”阻塞”状态，代表此线程正处于有限期的主动等待中，要么有人唤醒它，要么等待够了一定时间之后，才会再次进入就绪状态。</p>
-<p>##<code>TERMINATED</code><br>A thread that has exited is in this state.</p>
+<h2 id="TERMINATED"><a href="#TERMINATED" class="headerlink" title="TERMINATED"></a><code>TERMINATED</code></h2><p>A thread that has exited is in this state.</p>
 <p>A thread can be in only one state at a given point in time. These states are virtual machine states which do not reflect any operating system thread states.</p>
 
       
@@ -535,7 +534,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM中定义的线程状态"><span class="nav-number">1.</span> <span class="nav-text">JVM中定义的线程状态</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#线程的三种状态"><span class="nav-number">1.</span> <span class="nav-text">线程的三种状态</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM中定义的线程状态"><span class="nav-number">2.</span> <span class="nav-text">JVM中定义的线程状态</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#NEW"><span class="nav-number">2.1.</span> <span class="nav-text">NEW</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RUNNABLE"><span class="nav-number">2.2.</span> <span class="nav-text">RUNNABLE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BLOCKED"><span class="nav-number">2.3.</span> <span class="nav-text">BLOCKED</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WAITING"><span class="nav-number">2.4.</span> <span class="nav-text">WAITING</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TIMED-WAITING"><span class="nav-number">2.5.</span> <span class="nav-text">TIMED_WAITING</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TERMINATED"><span class="nav-number">2.6.</span> <span class="nav-text">TERMINATED</span></a></li></ol></li></ol></div>
             
 
           </div>
