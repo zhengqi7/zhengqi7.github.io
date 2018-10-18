@@ -108,21 +108,25 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+  <meta name="description" content="当比较两个浮点数或双精浮点数的数值时，只能使用判断差值的是否在精度允许的范围内的方法。 12345678910111213141516171819202122232425262728293031public class Compare &amp;#123;    //double至少16个精确位	public static final double PRECISIOND = 0.0000000000000">
+<meta name="keywords" content="java基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="比较double&#x2F;float">
+<meta property="og:url" content="http://yoursite.com/2018/10/18/比较double-float/index.html">
 <meta property="og:site_name" content="Qi&#39;s Blog">
+<meta property="og:description" content="当比较两个浮点数或双精浮点数的数值时，只能使用判断差值的是否在精度允许的范围内的方法。 12345678910111213141516171819202122232425262728293031public class Compare &amp;#123;    //double至少16个精确位	public static final double PRECISIOND = 0.0000000000000">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-13T15:52:44.207Z">
+<meta property="og:updated_time" content="2018-10-18T07:07:10.163Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="categories">
+<meta name="twitter:title" content="比较double&#x2F;float">
+<meta name="twitter:description" content="当比较两个浮点数或双精浮点数的数值时，只能使用判断差值的是否在精度允许的范围内的方法。 12345678910111213141516171819202122232425262728293031public class Compare &amp;#123;    //double至少16个精确位	public static final double PRECISIOND = 0.0000000000000">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/10/18/比较double-float/"/>
 
 
 
@@ -132,7 +136,7 @@
   };
 </script>
 
-  <title>categories | Qi's Blog</title>
+  <title>比较double/float | Qi's Blog</title>
   
 
 
@@ -232,7 +236,7 @@
         
         
           
-          <li class="menu-item menu-item-categories menu-item-active">
+          <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
   </li>
@@ -252,25 +256,6 @@
 
   
     
-
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
 
   
 
@@ -298,56 +283,158 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/18/比较double-float/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng7">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Qi's Blog">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-<h1 class="post-title" itemprop="name headline">categories</h1>
-
-<div class="post-meta">
-  
-  
-
-
-
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="category-all-page">
-            <div class="category-all-title">
-                
-                
-                  
-                    
-                  
-                
-                1 category in total
-            </div>
-            <div class="category-all">
-              <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/阅读/">阅读</a><span class="category-list-count">1</span></li></ul>
-            </div>
-          </div>
+          <h1 class="post-title" itemprop="name headline">比较double/float
+              
+            
+          </h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-10-18 09:06:02 / Modified: 09:07:10" itemprop="dateCreated datePublished" datetime="2018-10-18T09:06:02+02:00">2018-10-18</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <p>当比较两个浮点数或双精浮点数的数值时，<strong>只能</strong>使用判断差值的是否在精度允许的范围内的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Compare</span> </span>&#123;</span><br><span class="line">    <span class="comment">//double至少16个精确位</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">double</span> PRECISIOND = <span class="number">0.0000000000000001</span>;</span><br><span class="line">	<span class="comment">//float至少7个精确位</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">double</span> PRECISIONF = <span class="number">0.0000001</span>;</span><br><span class="line">    </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">double</span> d1 = <span class="number">0.1</span>;</span><br><span class="line">		<span class="keyword">double</span> d2 = <span class="number">1</span>-<span class="number">0.9</span>;</span><br><span class="line">		<span class="keyword">float</span>  f = <span class="number">0.1f</span>;</span><br><span class="line">        <span class="comment">/*不行的*/</span></span><br><span class="line">		System.out.println(<span class="string">"d1 == d2 : "</span> + (d1 == d2));</span><br><span class="line">		System.out.println(<span class="string">"Double.compare(d1,d2) : "</span> + Double.compare(d1, d2));</span><br><span class="line">		System.out.println(<span class="string">"new Double(d1).compareTo(d2) : "</span> </span><br><span class="line">		                   + <span class="keyword">new</span> Double(d1).compareTo(d2));</span><br><span class="line">        System.out.println(<span class="string">"d1 == f : "</span> + (d1 == f));</span><br><span class="line">        <span class="comment">/*可以*/</span></span><br><span class="line">		<span class="keyword">if</span>(Math.abs(d1-d2) &lt; PRECISIOND) </span><br><span class="line">			System.out.println(<span class="string">"Math.abs(d1-d2) &lt; PRECISION : d1 == d2"</span>); </span><br><span class="line">		<span class="keyword">if</span>(Math.abs(d1-f) &lt; PRECISIONF) </span><br><span class="line">			System.out.println(<span class="string">"Math.abs(d1-f) &lt; PRECISION : d1 == f"</span>); </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">输出：</span><br><span class="line">d1 == d2 : <span class="keyword">false</span></span><br><span class="line">Double.compare(d1,d2) : <span class="number">1</span></span><br><span class="line"><span class="keyword">new</span> Double(d1).compareTo(d2) : <span class="number">1</span></span><br><span class="line">Math.abs(d1-d2) &lt; PRECISION : d1 == d2</span><br><span class="line">d1 == f : <span class="keyword">false</span></span><br><span class="line">Math.abs(d1-f) &lt; PRECISION : d1 == f</span><br></pre></td></tr></table></figure>
       
     </div>
-    
-
-
 
     
+
     
     
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java基础/" rel="tag"># java基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/16/分组查询最大值（SQL-Pig）/" rel="next" title="分组查询最大值（SQL&Pig）">
+                <i class="fa fa-chevron-left"></i> 分组查询最大值（SQL&Pig）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
   </div>
 
 
