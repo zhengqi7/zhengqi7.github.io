@@ -108,17 +108,23 @@
 
 
 
-  <meta name="description" content="第三部分 字节码文件是虚拟机执行引擎的数据入口，是虚拟机的语言无关性和平台无关性的基石。  ###虚拟机执行子系统 Class类文件结构字节码指令虚拟机类加载机制">
+  <meta name="description" content="第三部分:虚拟机执行子系统 字节码文件是虚拟机执行引擎的数据入口，是虚拟机的语言无关性和平台无关性的基石。  [TOC] Class类文件结构 Class文件是一组以8位字节为基础单位的二进制流，其中包括两种数据类型：无符号数和表。    类型 名称 数量     U4 Magic 1   U2 Minor_version 1   U2 Major_version 1   U2 Constant_">
 <meta property="og:type" content="article">
-<meta property="og:title" content="《深入理解JAVA虚拟机》笔记2">
+<meta property="og:title" content="Qi&#39;s Blog">
 <meta property="og:url" content="http://yoursite.com/2018/10/30/《深入理解JAVA虚拟机》笔记2/index.html">
 <meta property="og:site_name" content="Qi&#39;s Blog">
-<meta property="og:description" content="第三部分 字节码文件是虚拟机执行引擎的数据入口，是虚拟机的语言无关性和平台无关性的基石。  ###虚拟机执行子系统 Class类文件结构字节码指令虚拟机类加载机制">
+<meta property="og:description" content="第三部分:虚拟机执行子系统 字节码文件是虚拟机执行引擎的数据入口，是虚拟机的语言无关性和平台无关性的基石。  [TOC] Class类文件结构 Class文件是一组以8位字节为基础单位的二进制流，其中包括两种数据类型：无符号数和表。    类型 名称 数量     U4 Magic 1   U2 Minor_version 1   U2 Major_version 1   U2 Constant_">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-30T19:31:58.495Z">
+<meta property="og:image" content="http://yoursite.com/images/JVM2.1.png">
+<meta property="og:image" content="http://yoursite.com/images/JVM2.2.png">
+<meta property="og:image" content="http://yoursite.com/images/JVM2.3.png">
+<meta property="og:image" content="http://yoursite.com/images/JVM2.5.png">
+<meta property="og:image" content="http://yoursite.com/images/JVM2.6.png">
+<meta property="og:updated_time" content="2018-11-09T08:38:18.218Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="《深入理解JAVA虚拟机》笔记2">
-<meta name="twitter:description" content="第三部分 字节码文件是虚拟机执行引擎的数据入口，是虚拟机的语言无关性和平台无关性的基石。  ###虚拟机执行子系统 Class类文件结构字节码指令虚拟机类加载机制">
+<meta name="twitter:title" content="Qi&#39;s Blog">
+<meta name="twitter:description" content="第三部分:虚拟机执行子系统 字节码文件是虚拟机执行引擎的数据入口，是虚拟机的语言无关性和平台无关性的基石。  [TOC] Class类文件结构 Class文件是一组以8位字节为基础单位的二进制流，其中包括两种数据类型：无符号数和表。    类型 名称 数量     U4 Magic 1   U2 Minor_version 1   U2 Major_version 1   U2 Constant_">
+<meta name="twitter:image" content="http://yoursite.com/images/JVM2.1.png">
 
 
 
@@ -135,7 +141,7 @@
   };
 </script>
 
-  <title>《深入理解JAVA虚拟机》笔记2 | Qi's Blog</title>
+  <title> | Qi's Blog</title>
   
 
 
@@ -313,7 +319,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">《深入理解JAVA虚拟机》笔记2
+          <h1 class="post-title" itemprop="name headline">
               
             
           </h1>
@@ -338,12 +344,24 @@
                 
               
 
-              <time title="Created: 2018-10-30 20:24:19 / Modified: 20:31:58" itemprop="dateCreated datePublished" datetime="2018-10-30T20:24:19+01:00">2018-10-30</time>
+              <time title="Created: 2018-10-30 20:24:19" itemprop="dateCreated datePublished" datetime="2018-10-30T20:24:19+01:00">2018-10-30</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-11-09 09:38:18" itemprop="dateModified" datetime="2018-11-09T09:38:18+01:00">2018-11-09</time>
               
             
           </span>
@@ -376,11 +394,438 @@
       
 
       
-        <h2 id="第三部分"><a href="#第三部分" class="headerlink" title="第三部分"></a>第三部分</h2><blockquote>
+        <h2 id="第三部分-虚拟机执行子系统"><a href="#第三部分-虚拟机执行子系统" class="headerlink" title="第三部分:虚拟机执行子系统"></a>第三部分:虚拟机执行子系统</h2><blockquote>
 <p>字节码文件是虚拟机执行引擎的数据入口，是虚拟机的语言无关性和平台无关性的基石。</p>
 </blockquote>
-<p>###虚拟机执行子系统</p>
-<h4 id="Class类文件结构"><a href="#Class类文件结构" class="headerlink" title="Class类文件结构"></a>Class类文件结构</h4><h4 id="字节码指令"><a href="#字节码指令" class="headerlink" title="字节码指令"></a>字节码指令</h4><h3 id="虚拟机类加载机制"><a href="#虚拟机类加载机制" class="headerlink" title="虚拟机类加载机制"></a>虚拟机类加载机制</h3>
+<p>[TOC]</p>
+<h3 id="Class类文件结构"><a href="#Class类文件结构" class="headerlink" title="Class类文件结构"></a>Class类文件结构</h3><p> Class文件是一组以8位字节为基础单位的二进制流，其中包括两种数据类型：<font color="#B01D1D">无符号数和表</font>。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">类型</th>
+<th>名称</th>
+<th>数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">U4</td>
+<td>Magic</td>
+<td>1</td>
+</tr>
+<tr>
+<td style="text-align:left">U2</td>
+<td>Minor_version</td>
+<td>1</td>
+</tr>
+<tr>
+<td style="text-align:left">U2</td>
+<td>Major_version</td>
+<td>1</td>
+</tr>
+<tr>
+<td style="text-align:left">U2</td>
+<td>Constant_pool_count</td>
+<td>1</td>
+</tr>
+<tr>
+<td style="text-align:left">Cp_info</td>
+<td>Constant_pool</td>
+<td>Constant_pool_count-1</td>
+</tr>
+<tr>
+<td style="text-align:left">U2</td>
+<td>Access_flags</td>
+<td>1</td>
+</tr>
+<tr>
+<td style="text-align:left">U2</td>
+<td>This_class</td>
+<td>1</td>
+</tr>
+<tr>
+<td style="text-align:left">U2</td>
+<td>Super_class</td>
+<td>1</td>
+</tr>
+<tr>
+<td style="text-align:left">U2</td>
+<td>Interfaces_count</td>
+<td>1</td>
+</tr>
+<tr>
+<td style="text-align:left">U2</td>
+<td>Interfaces</td>
+<td>Interfaces_count</td>
+</tr>
+<tr>
+<td style="text-align:left">U2</td>
+<td>Fields_count</td>
+<td>1</td>
+</tr>
+<tr>
+<td style="text-align:left">Field_info</td>
+<td>Fields</td>
+<td>Fields_count</td>
+</tr>
+<tr>
+<td style="text-align:left">U2</td>
+<td>Methods_count</td>
+<td>1</td>
+</tr>
+<tr>
+<td style="text-align:left">Method_info</td>
+<td>Methods</td>
+<td>Methods_count</td>
+</tr>
+<tr>
+<td style="text-align:left">U2</td>
+<td>Attributes_count</td>
+<td>1</td>
+</tr>
+<tr>
+<td style="text-align:left">Attribute_info</td>
+<td>Attributes</td>
+<td>Attributes_count</td>
+</tr>
+</tbody>
+</table>
+<h4 id="magic与version"><a href="#magic与version" class="headerlink" title="magic与version"></a>magic与version</h4><p>每个Class文件的头4个字节称为魔数（magic），它的唯一作用是判断该文件是否为一个能被虚拟机接受的Class文件。它的值固定为0xCAFEBABE。紧接着magic的4个字节存储的是Class文件的次版本号和主版本号。</p>
+<h4 id="constant-pool"><a href="#constant-pool" class="headerlink" title="constant_pool"></a>constant_pool</h4><p>它是Class文件中与其他项目关联最多的数据类型，也是占用Class文件空间最大的数据项目之一。<font color="#B01D1D">主要存放两大类常量：字面量和符号引用</font>。字面量接近于Java层面的常量概念，包括如字符串文本、被声明为final的常量值等。符号引用包括：</p>
+<ol>
+<li><p>类和接口的全限定名; </p>
+</li>
+<li><p>字段的名称和描述符; </p>
+</li>
+<li><p>方法的名称和描述符。</p>
+</li>
+</ol>
+<p>常量池中每一项常量都是一个表，共有11种（JDK1.7之前）结构各不相同的表结构数据，每种表开始的第一位都是一个u1类型的标志位，代表这个常量属于哪种常量类型。</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>标志</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CONTSTANT_Utf8_info</td>
+<td>1</td>
+<td>UTF-8编码的字符串</td>
+</tr>
+<tr>
+<td>CONTSTANT_Integer_info</td>
+<td>3</td>
+<td>整型字面量</td>
+</tr>
+<tr>
+<td>CONTSTANT_Float_info</td>
+<td>4</td>
+<td>浮点型字面量</td>
+</tr>
+<tr>
+<td>CONTSTANT_Long_info</td>
+<td>5</td>
+<td>长整型字面量</td>
+</tr>
+<tr>
+<td>CONTSTANT_Double_info</td>
+<td>6</td>
+<td>双精度浮点型字面量</td>
+</tr>
+<tr>
+<td>CONTSTANT_Class_info</td>
+<td>7</td>
+<td>类和接口的符号引用</td>
+</tr>
+<tr>
+<td>CONTSTANT_Stirng_info</td>
+<td>8</td>
+<td>字符串类型字面量</td>
+</tr>
+<tr>
+<td>CONTSTANT_Fildref_info</td>
+<td>9</td>
+<td>字段的符号引用</td>
+</tr>
+<tr>
+<td>CONTSTANT_Methodref_info</td>
+<td>10</td>
+<td>类中方法的符号引用</td>
+</tr>
+<tr>
+<td>CONTSTANT_InterfaceMethodref_info</td>
+<td>11</td>
+<td>接口中方法的符号引用</td>
+</tr>
+<tr>
+<td>CONTSTANT_NameAnyType_info</td>
+<td>12</td>
+<td>字段或方法的部分符号引用</td>
+</tr>
+</tbody>
+</table>
+<p>这11种常量类型各自均有自己的结构。</p>
+<h4 id="access-flag"><a href="#access-flag" class="headerlink" title="access_flag"></a>access_flag</h4><p>在常量池结束之后，紧接着的2个字节代表访问标志（access_flag），这个标志用于识别一些类或接口层次的访问信息，包括：这个Class是类还是接口，是否定义为public类型，abstract类型，如果是类的话，是否声明为final，等等。</p>
+<h4 id="this-class、super-class、interfaces"><a href="#this-class、super-class、interfaces" class="headerlink" title="this_class、super_class、interfaces"></a>this_class、super_class、interfaces</h4><p>类索引（this_class）和父类索引（super_class）都是一个u2类型的数据，而接口索引集合（interfaces）则是一组u2类型的数据集合，<font color="#B01D1D">Class文件中由这三项数据来确定这个类的继承关系</font>。类索引和父类索引两个u2类型的索引值表示，它们各自指向一个类型为COMNSTANT_Class_info的类描述符常量，通过该常量中的索引值找到定义在COMNSTANT_Utf8_info类型的常量中的全限定名字符串。而接口索引集合就用来描述这个类实现了哪些接口，这些被实现的接口将按implements语句（如果这个类本身是个接口，则应当是extend语句）后的接口顺序从左到右排列在接口的索引集合中。</p>
+<h4 id="fields"><a href="#fields" class="headerlink" title="fields"></a>fields</h4><p>字段表（field_info）用于描述接口或类中声明的变量。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">类型</th>
+<th>名称</th>
+<th>数量</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">U2</td>
+<td>Access_flags</td>
+<td>1</td>
+<td>类型修饰符如public、static、volatile</td>
+</tr>
+<tr>
+<td style="text-align:left">U2</td>
+<td>Name_index</td>
+<td>1</td>
+<td>对常量池的引用，代表字段的简单名称，如names</td>
+</tr>
+<tr>
+<td style="text-align:left">U2</td>
+<td>Descriptor_index</td>
+<td>1</td>
+<td>对常量池的引用，代表描述字段的数据类型，如[Ljava/lang/String</td>
+</tr>
+<tr>
+<td style="text-align:left">U2</td>
+<td>Attributes_count</td>
+<td>1</td>
+<td>（可选部分）</td>
+</tr>
+<tr>
+<td style="text-align:left">Attribute_info</td>
+<td>Attributes</td>
+<td>Attributes_count</td>
+<td>（可选部分）属性表集合用于存储一些额外的信息</td>
+</tr>
+</tbody>
+</table>
+<h4 id="methods"><a href="#methods" class="headerlink" title="methods"></a>methods</h4><p>方法表（method_info）的结构与属性表的结构相同。</p>
+<p>方法里的Java代码，经过编译器编译成字节码指令后，存放在方法属性表集合中一个名为“Code”的属性里。Code属性是Class文件中最重要的一个属性，如果把一个Java程序中的信息分为代码和元数据两部分，那么在整个Class文件里，Code属性用于描述代码，所有的其他数据项目都用于描述元数据。</p>
+<h4 id="attributes"><a href="#attributes" class="headerlink" title="attributes"></a>attributes</h4><p>在Class文件、字段表、方法表中都可以携带自己的属性表集合，以用于描述某些场景专有的信息。 对于每个属性，它的名称都需要从常量池中引用一个CONSTANT_Utf8_info类型的常量来表示，每个属性值的结构是完全可以自定义的，只需说明属性值所占用的位数长度即可。一个符合规则的属性表至少应具有“attribute_name_info”、“attribute_length”和至少一项信息属性。</p>
+<p>以下是一些常用的属性：</p>
+<table>
+<thead>
+<tr>
+<th>属性名称</th>
+<th>使用位置</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Code</td>
+<td>方法表</td>
+<td>Java代码编译生成的字节码指令</td>
+</tr>
+<tr>
+<td>ConstantValue</td>
+<td>字段表</td>
+<td>final 关键字修饰的常量</td>
+</tr>
+<tr>
+<td>Exceptions</td>
+<td>方法表</td>
+<td>方法抛出的异常</td>
+</tr>
+<tr>
+<td>InnerClass</td>
+<td>方法类</td>
+<td>内部类列表</td>
+</tr>
+<tr>
+<td>LineNumber</td>
+<td>Code属性</td>
+<td>Java源码和字节码指令间的关系</td>
+</tr>
+<tr>
+<td>LocalVariableTable</td>
+<td>Code属性</td>
+<td>方法的局部变量描述</td>
+</tr>
+<tr>
+<td>SourceFile</td>
+<td>类文件</td>
+<td>源文件名称</td>
+</tr>
+</tbody>
+</table>
+<h3 id="字节码指令"><a href="#字节码指令" class="headerlink" title="字节码指令"></a>字节码指令</h3><p>Java虚拟机指令是由（占用一个字节长度、代表某种特定操作含义的数字）操作码Opcode，以及跟随在其后的零至多个代表此操作所需参数的称为操作数 Operands 构成的。由于Java虚拟机是面向操作数栈而不是寄存器的架构，所以大多数指令都只有操作码，而没有操作数。</p>
+<h4 id="字节码与数据类型"><a href="#字节码与数据类型" class="headerlink" title="字节码与数据类型"></a>字节码与数据类型</h4><p>在Java虚拟机指令集中，大多数的指令都包含了其操作所对应的数据类型信息，i代表int，l代表long，s代表short，b代表byte，c代表char，f代表float，d代表double，a代表reference。例如，iload 指令用于从局部变量表中加载int 型的数据到操作数栈中。</p>
+<p>但是，由于Java虚拟机字节码的长度只有一个字节，不能没种操作都支持全部的数据类型，因此大部分指令都没有支持整数类型byte、char、short，甚至没有任何指令支持blloean。编译器会在编译或运行期间将byte和short类型的数据带符号扩展为int类型。同样对于byte、char、short、boolean类型的数组，也会转换为使用对应的int类型字节码。</p>
+<h4 id="加载和存储指令"><a href="#加载和存储指令" class="headerlink" title="加载和存储指令"></a>加载和存储指令</h4><p>用于将数据从栈帧的局部变量表和操作数栈之间来回传输。</p>
+<ul>
+<li>将一个局部变量加载到操作数栈的指令包括：</li>
+</ul>
+<p>iload,iload_<n>，lload、lload_<n>、float、 fload_<n>、dload、dload_<n>，aload、aload_<n></n></n></n></n></n></p>
+<ul>
+<li><p>将一个数值从操作数栈存储到局部变量表的指令：istore,istore_<n>,lstore,lstore_<n>,fstore,fstore_<n>,dstore,dstore_<n>,astore,astore_<n></n></n></n></n></n></p>
+</li>
+<li><p>将常量加载到操作数栈的指令：bipush,sipush,ldc,ldc_w,ldc2_w,aconst_null,iconst_ml,iconst_<i>,lconst_<l>,fconst_<f>,dcons_<d></d></f></l></i></p>
+</li>
+<li><p>局部变量表的访问索引指令:</p>
+<p>wide</p>
+</li>
+</ul>
+<p><em>一部分以尖括号结尾的指令代表了一组指令，如iload_<i>，代表了iload_0,iload_1等，这几组指令都是带有一个操作数的通用指令。</i></em></p>
+<h4 id="算术指令"><a href="#算术指令" class="headerlink" title="算术指令"></a>算术指令</h4><p>用于对两个操作数栈上的值进行某种特定运算，并把结果重新存入到操作栈顶。</p>
+<ul>
+<li><p>加法指令:iadd,ladd,fadd,dadd    减法指令:isub,lsub,fsub,dsub  局部变量自增指令:iinc</p>
+</li>
+<li><p>乘法指令:imul,lmul,fmul,dmul    除法指令:idiv,ldiv,fdiv,ddiv  求余指令:irem,lrem,frem,drem</p>
+</li>
+<li><p>按位或指令:ior,lor  按位与指令:iand,land  按位异或指令:ixor,lxor</p>
+</li>
+<li><p>位移指令:ishl,ishr,iushr,lshl,lshr,lushr  取反指令:ineg,leng,fneg,dneg</p>
+</li>
+<li><p>比较指令:dcmpg,dcmpl,fcmpg,fcmpl,lcmp</p>
+</li>
+<li><p>类型转换指令</p>
+</li>
+</ul>
+<h4 id="类型转换指令"><a href="#类型转换指令" class="headerlink" title="类型转换指令"></a>类型转换指令</h4><p>将两种Java虚拟机数值类型相互转换，这些操作一般用于实现用户代码的显式类型转换操作。<br>JVM直接就支持宽化类型转换(小范围类型向大范围类型转换)：</p>
+<ul>
+<li>int类型到long,float,double类型</li>
+<li>long类型到float,double类型</li>
+<li>float到double类型<br>但在处理窄化类型转换时，必须显式使用转换指令来完成，这些指令包括：i2b、i2c、i2s、l2i、f2i、f2l、d2i、d2l和 d2f。<br>将int 或 long 窄化为整型T的时候，仅仅简单的把除了低位的N个字节以外的内容丢弃，N是T的长度。这有可能导致转换结果与输入值有不同的正负号。<br>在将一个浮点值窄化为整数类型T（仅限于 int 和 long 类型），将遵循以下转换规则：</li>
+</ul>
+<ol>
+<li>如果浮点值是NaN ， 呐转换结果就是int 或 long 类型的0</li>
+<li>如果浮点值不是无穷大，浮点值使用IEEE 754 的向零舍入模式取整，获得整数v，<ol>
+<li>如果v在T表示范围之内，那就过就是v</li>
+<li>否则，根据v的符号， 转换为T 所能表示的最大或者最小正数<h4 id="对象创建与访问指令"><a href="#对象创建与访问指令" class="headerlink" title="对象创建与访问指令"></a>对象创建与访问指令</h4>虽然类实例和数组都是对象，Java虚拟机对类实例和数组的创建与操作使用了不同的字节码指令。</li>
+</ol>
+</li>
+</ol>
+<ul>
+<li>创建实例的指令:new</li>
+<li>创建数组的指令:newarray, anewarray, multianewarray</li>
+<li>访问字段指令:getfield, putfield, getstatic, putstatic</li>
+<li>把数组元素加载到操作数栈指令:baload, caload, saload, iaload, laload, faload, daload, aaload</li>
+<li>将操作数栈的数值存储到数组元素中执行: bastore, castore, castore, sastore, iastore, fastore, dastore, aastore</li>
+<li>取数组长度指令:arraylength JVM支持方法级同步和方法内部一段指令序列同步，这两种都是通过moniter实现的。</li>
+<li>检查实例类型指令:instanceof,checkcast<h4 id="操作数栈管理指令"><a href="#操作数栈管理指令" class="headerlink" title="操作数栈管理指令"></a>操作数栈管理指令</h4>如同操作一个普通数据结构中的堆栈那样，Java 虚拟机提供了一些用于直接操作操作数栈的指令，包括：</li>
+<li>将操作数栈的栈顶一个或两个元素出栈：pop、pop2</li>
+<li>复制栈顶一个或两个数值并将复制值或双份的复制值重新压入栈顶：dup、dup2、dup_x1、dup2_x1、dup_x2、dup2_x2。</li>
+<li>将栈最顶端的两个数值互换：swap</li>
+</ul>
+<h4 id="控制转移指令"><a href="#控制转移指令" class="headerlink" title="控制转移指令"></a>控制转移指令</h4><p>让JVM有条件或无条件从指定指令而不是控制转移指令的下一条指令继续执行程序。控制转移指令包括：</p>
+<ul>
+<li>条件分支:ifeq, iflt, ifle, ifne, ifgt, ifge, ifnull, ifnotnull, if_cmpeq, if_icmpne, if_icmlt, if_icmpgt等</li>
+<li>复合条件分支:tableswitch, lookupswitch</li>
+<li>无条件分支:goto, goto_w, jsr, jsr_w, ret</li>
+</ul>
+<p>JVM中有专门的指令集处理int和reference类型的条件分支比较操作，为了可以无明显标示一个实体值是否是null，有专门的指令检测null值。</p>
+<p>boolean、byte、char、short类型的条件分支比较操作，都使用int类型的比较指令完成，而 long、float、double条件分支比较操作，先执行相应的比较运算指令，运算指令会返回一个整型值到操作数栈中，随后再执行int类型的条件比较操作完成整个分支跳转。各种类型的比较都最终会转化为int类型的比较操作。</p>
+<h4 id="方法调用和返回指令"><a href="#方法调用和返回指令" class="headerlink" title="方法调用和返回指令"></a>方法调用和返回指令</h4><ul>
+<li><p>invokevirtual指令：调用对象的实例方法，根据对象的实际类型进行分派(虚拟机分派)</p>
+</li>
+<li><p>invokeinterface指令：调用接口方法，在运行时搜索一个实现这个接口方法的对象，找出合适的方法进行调用</p>
+</li>
+<li><p>invokespecial：调用需要特殊处理的实例方法，包括实例初始化方法，私有方法和父类方法</p>
+</li>
+<li><p>invokestatic：调用类方法(static)</p>
+</li>
+<li><p>方法返回指令：根据返回值的类型区分的，包括ireturn(返回值是boolean、byte、char、short和 int)、lreturn、freturn、drturn和areturn，另外一个return供void方法，实例初始化方法，类和接口的类初始化方法使用。</p>
+</li>
+</ul>
+<h4 id="异常处理指令"><a href="#异常处理指令" class="headerlink" title="异常处理指令"></a>异常处理指令</h4><p>在Java程序中显式抛出异常的操作（throw语句）都有athrow 指令来实现，除了用throw 语句显示抛出异常情况外，Java虚拟机规范还规定了许多运行时异常会在其他Java虚拟机指令检测到异常状况时自动抛出。<br>在Java虚拟机中，处理异常不是由字节码指令来实现的，而是采用异常表来完成的。</p>
+<h4 id="同步指令"><a href="#同步指令" class="headerlink" title="同步指令"></a>同步指令</h4><p>方法级的同步是隐式的，无需通过字节码指令来控制，它实现在方法调用和返回操作中。虚拟机从方法常量池中的方法标结构中的 <code>ACC_SYNCHRONIZED</code>标志区分是否是同步方法。方法调用时，调用指令会检查该标志是否被设置，若设置，执行线程持有moniter，然后执行方法，最后完成方法时释放moniter。<br>同步一段指令集序列，通常由synchronized块标示，JVM指令集中有<code>monitorenter</code>和<code>monitorexit</code>来支持synchronized语义。</p>
+<hr>
+<h3 id="虚拟机类加载机制"><a href="#虚拟机类加载机制" class="headerlink" title="虚拟机类加载机制"></a>虚拟机类加载机制</h3><h4 id="类的加载过程"><a href="#类的加载过程" class="headerlink" title="类的加载过程"></a>类的加载过程</h4> <div align="center"><br> <img src="/images/JVM2.1.png" width="80%" height="80%"><br></div> 
+
+
+<p>加载、验证、准备、初始化、卸载，这五个阶段是按顺序开始的。解析阶段可能发生在初始化阶段之后。这六个阶段称为类的加载。</p>
+<p><strong>加载</strong></p>
+<ol>
+<li><p>通过类的全下定名获得类的二进制字节流。</p>
+</li>
+<li><p>将这个字节流所代表的静态存储结构转换为方法区的运行时数据结构。</p>
+</li>
+<li><p>在内存中生成一个代表这个类的java.lang.Class对象，作为方法区这个类的各种数据的访问入口。</p>
+<div align="center"><br><img src="/images/JVM2.2.png" width="50%" height="50%"><br></div> 
+
+</li>
+</ol>
+<p><strong>验证</strong></p>
+<ol>
+<li><p>文件格式验证：Class文件是否符合规范，当前虚拟机版本是否能处理</p>
+</li>
+<li><p>元数据验证：进行语义分析：是否有父类、是否实现了所继承的抽象类中所有方法等</p>
+</li>
+<li><p>字节码验证：通过数据流和控制流分析，语义是合法合理的，进一步的语义分析。（一个int的值没有被当成long来写入）</p>
+</li>
+<li><p>符号引用验证：发生在将符号引用转换为直接应用的时候（解析阶段）用来检查权限，以及是否能成功解析</p>
+</li>
+</ol>
+<p><strong>准备</strong></p>
+<p>正式为类变量在方法区分配内存并设置变量初始值（通常为0和null，final修饰的常量赋程序员给定的初值）。</p>
+<p><strong>解析</strong></p>
+<p>解析阶段是将常量池内的符号引用替换为直接引用的过程。</p>
+<p>符号引用：用一组符号（字符串）来描述所引用的目标，符号可以使任何形式的字面量，符号引用与jvm的内存布局无关，此时类可以没有加载到内存中。</p>
+<p>直接引用：可以使直接指向目标的指针、相对偏移量或一个能间接定位到目标的句柄，直接引用与内存布局相关，此时类一定已经加载到内存中了。</p>
+<p>解析动作主要针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符7类符号引用进行。</p>
+<p><strong>初始化</strong></p>
+<p>真正开始执行类中定义的java程序代码，编译器收集类中所有类变量的赋值语句和静态语句块合并成<code>&lt;clinit&gt;()</code>方法（执行该方法前一定要执行父类的方法)。</p>
+<h4 id="类的加载时机"><a href="#类的加载时机" class="headerlink" title="类的加载时机"></a>类的加载时机</h4><p>类的加载发生在初始化之前，类的初始化发生在以下五种情况下：</p>
+<ol>
+<li>遇到new（通过new进行实例化）、getstatic（读取静态字段）、putstatic（设置静态字段）、invokestatic（调用静态方法）四条字节码指令时，如果类没有进行初始化，则需要先触发其初始化。</li>
+<li>初始化一个类时，如果其父类还没有初始化，则需要先触发其父类的初始化。</li>
+<li>虚拟机启动时，用户指定的主类。</li>
+<li>使用java.lang.reflect包的方法对类进行反射调用，如果类没有进行初始化，则需要先触发其初始化。</li>
+<li>如果java.lang.invoke.MethodHandle实例最后解析的结果的方法句柄是REF_getStatic、REF_putStatic、REF_invokeStatic的方法句柄，并且这个方法句柄对应的类没有初始化，则需要先触发其初始化。</li>
+</ol>
+<h4 id="类的加载器"><a href="#类的加载器" class="headerlink" title="类的加载器"></a>类的加载器</h4><p>对于任意一个类，都需要有加载它的类加载器和这个类本身共同确定。</p>
+<p><strong>双亲委派机制</strong></p>
+<p><img src="/images/JVM2.3.png" alt="屏幕快照 2018-11-08 下午8.34.28"></p>
+<hr>
+<h3 id="虚拟机字节码执行引擎"><a href="#虚拟机字节码执行引擎" class="headerlink" title="虚拟机字节码执行引擎"></a>虚拟机字节码执行引擎</h3><h4 id="运行时栈帧的结构"><a href="#运行时栈帧的结构" class="headerlink" title="运行时栈帧的结构"></a>运行时栈帧的结构</h4><p><img src="/images/JVM2.5.png" alt="屏幕快照 2018-11-08 下午9.23.56"></p>
+<p><strong>局部变量表</strong></p>
+<ol>
+<li><p>是一组变量值存储空间。用来存储方法参数和方法内部定义的局部变量。在.class中已经由code属性的max_locals项决定了局部变量表的最大容量。</p>
+</li>
+<li><p>局部变量表容量以变量槽（Slot）为最小单位（32/64bit）</p>
+</li>
+<li><p>对象的方法局部变量表中第0为存储的是所属对象的实例引用，即 this</p>
+</li>
+<li><p>slot可以重用，即局部变量表的空间可能会比实际所有方法中变量需要占用的空间要小，有时候把不使用的对象手动赋null，可能会有助于GC</p>
+</li>
+<li><p>类变量（成员变量）（class内 方法外）是默认有初值的（在类准备阶段被赋0和nul了），而方法内的变量，即局部变量是没有初值的，不能直接调用</p>
+</li>
+</ol>
+<h4 id="方法调用"><a href="#方法调用" class="headerlink" title="方法调用"></a>方法调用</h4><p>方法调用阶段唯一的任务就是<font color="#B01D1D">确定被调用方法的版本</font>，暂时不涉及方法内部的具体运行。</p>
+<p><strong>解析</strong></p>
+<p>在类加载的解析阶段将其中一部分符号引用转化为直接引用。换句话说，调用目标在程序代码写好、编译器进行编译时就必须确定下来。这种类方法的调用称为解析。可以使用这种调用的方法主要包括：<font color="#B01D1D">静态方法和私有方法</font>。因为这两种方法都不能被重写，不存在运行时多态。</p>
+<p><strong>分派</strong></p>
+<p>静态分派：编译器在重载时通过参数的静态类型而不是实际类型作为判定依据。/多分派：需要确定对象类型和重载的方法</p>
+<p>动态分派：重写。/单分派：仅需要确定对象类型</p>
+<p><em>方法的接收者与方法的参数统称为方法的宗量，根据分派基于多少宗量可以将分派划分为单分派和多分派两种。</em></p>
+<p><strong>动态分派实现:虚方法表</strong></p>
+<p> <div align="center"><br> <img src="/images/JVM2.6.png" width="50%" height="50%"><br></div><br>虚方法表中存放着各个方法的实际入口地址。如果某个方法在子类中没有被重写，那么子类的虚方法表里的地址和父类相同方法的地址入口一致，都指向父类的实现入口。如果子类重写了这个方法，子类方法表中的地址会指向子类实现版本的入口地址。</p>
+<h4 id="基于栈的字节码解释执行引擎"><a href="#基于栈的字节码解释执行引擎" class="headerlink" title="基于栈的字节码解释执行引擎"></a>基于栈的字节码解释执行引擎</h4><p>整个运行过程的中间变量都以操作数栈的出栈入栈为信息交换途径。</p>
+<blockquote>
+<p>Ref:</p>
+<ol>
+<li><p>《深入理解Java虚拟机：JVM高级特性与最佳实践》 周志明</p>
+</li>
+<li><p><a href="https://blog.csdn.net/u010349169/column/info/jvm-principle" target="_blank" rel="noopener">Java虚拟机原理图解</a></p>
+</li>
+</ol>
+</blockquote>
+
       
     </div>
 
@@ -570,7 +1015,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第三部分"><span class="nav-number">1.</span> <span class="nav-text">第三部分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Class类文件结构"><span class="nav-number">1.0.1.</span> <span class="nav-text">Class类文件结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字节码指令"><span class="nav-number">1.0.2.</span> <span class="nav-text">字节码指令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟机类加载机制"><span class="nav-number">1.1.</span> <span class="nav-text">虚拟机类加载机制</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第三部分-虚拟机执行子系统"><span class="nav-number">1.</span> <span class="nav-text">第三部分:虚拟机执行子系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Class类文件结构"><span class="nav-number">1.1.</span> <span class="nav-text">Class类文件结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#magic与version"><span class="nav-number">1.1.1.</span> <span class="nav-text">magic与version</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#constant-pool"><span class="nav-number">1.1.2.</span> <span class="nav-text">constant_pool</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#access-flag"><span class="nav-number">1.1.3.</span> <span class="nav-text">access_flag</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#this-class、super-class、interfaces"><span class="nav-number">1.1.4.</span> <span class="nav-text">this_class、super_class、interfaces</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fields"><span class="nav-number">1.1.5.</span> <span class="nav-text">fields</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#methods"><span class="nav-number">1.1.6.</span> <span class="nav-text">methods</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#attributes"><span class="nav-number">1.1.7.</span> <span class="nav-text">attributes</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字节码指令"><span class="nav-number">1.2.</span> <span class="nav-text">字节码指令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字节码与数据类型"><span class="nav-number">1.2.1.</span> <span class="nav-text">字节码与数据类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#加载和存储指令"><span class="nav-number">1.2.2.</span> <span class="nav-text">加载和存储指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算术指令"><span class="nav-number">1.2.3.</span> <span class="nav-text">算术指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类型转换指令"><span class="nav-number">1.2.4.</span> <span class="nav-text">类型转换指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对象创建与访问指令"><span class="nav-number">1.2.5.</span> <span class="nav-text">对象创建与访问指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#操作数栈管理指令"><span class="nav-number">1.2.6.</span> <span class="nav-text">操作数栈管理指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#控制转移指令"><span class="nav-number">1.2.7.</span> <span class="nav-text">控制转移指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法调用和返回指令"><span class="nav-number">1.2.8.</span> <span class="nav-text">方法调用和返回指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常处理指令"><span class="nav-number">1.2.9.</span> <span class="nav-text">异常处理指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#同步指令"><span class="nav-number">1.2.10.</span> <span class="nav-text">同步指令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟机类加载机制"><span class="nav-number">1.3.</span> <span class="nav-text">虚拟机类加载机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#类的加载过程"><span class="nav-number">1.3.1.</span> <span class="nav-text">类的加载过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类的加载时机"><span class="nav-number">1.3.2.</span> <span class="nav-text">类的加载时机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类的加载器"><span class="nav-number">1.3.3.</span> <span class="nav-text">类的加载器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟机字节码执行引擎"><span class="nav-number">1.4.</span> <span class="nav-text">虚拟机字节码执行引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#运行时栈帧的结构"><span class="nav-number">1.4.1.</span> <span class="nav-text">运行时栈帧的结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法调用"><span class="nav-number">1.4.2.</span> <span class="nav-text">方法调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于栈的字节码解释执行引擎"><span class="nav-number">1.4.3.</span> <span class="nav-text">基于栈的字节码解释执行引擎</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
