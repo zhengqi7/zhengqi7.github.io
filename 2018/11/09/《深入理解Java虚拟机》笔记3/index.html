@@ -108,26 +108,21 @@
 
 
 
-  <meta name="description" content="面向服务的架构是一种设计方法，其中包含多个服务，而服务之间通过配合最终会提供一系列功能。一个服务通常以独立的形式存在于操作系统进程中。服务之间通过网络调用，而非采用进程调用。 ​">
-<meta property="og:type" content="article">
-<meta property="og:title" content="SOA是什么——由第一次TP想到的">
-<meta property="og:url" content="http://yoursite.com/2018/10/11/SOA是什么——由第一次TP想到的/index.html">
+  <meta property="og:type" content="article">
+<meta property="og:title" content="《深入理解Java虚拟机》笔记3">
+<meta property="og:url" content="http://yoursite.com/2018/11/09/《深入理解Java虚拟机》笔记3/index.html">
 <meta property="og:site_name" content="Qi&#39;s Blog">
-<meta property="og:description" content="面向服务的架构是一种设计方法，其中包含多个服务，而服务之间通过配合最终会提供一系列功能。一个服务通常以独立的形式存在于操作系统进程中。服务之间通过网络调用，而非采用进程调用。 ​">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/images/SOA.png">
-<meta property="og:updated_time" content="2018-10-11T14:34:50.329Z">
+<meta property="og:updated_time" content="2018-11-09T08:41:48.917Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SOA是什么——由第一次TP想到的">
-<meta name="twitter:description" content="面向服务的架构是一种设计方法，其中包含多个服务，而服务之间通过配合最终会提供一系列功能。一个服务通常以独立的形式存在于操作系统进程中。服务之间通过网络调用，而非采用进程调用。 ​">
-<meta name="twitter:image" content="http://yoursite.com/images/SOA.png">
+<meta name="twitter:title" content="《深入理解Java虚拟机》笔记3">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/10/11/SOA是什么——由第一次TP想到的/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/11/09/《深入理解Java虚拟机》笔记3/"/>
 
 
 
@@ -137,7 +132,7 @@
   };
 </script>
 
-  <title>SOA是什么——由第一次TP想到的 | Qi's Blog</title>
+  <title>《深入理解Java虚拟机》笔记3 | Qi's Blog</title>
   
 
 
@@ -298,7 +293,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/11/SOA是什么——由第一次TP想到的/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/09/《深入理解Java虚拟机》笔记3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zheng7">
@@ -315,7 +310,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">SOA是什么——由第一次TP想到的
+          <h1 class="post-title" itemprop="name headline">《深入理解Java虚拟机》笔记3
               
             
           </h1>
@@ -340,13 +335,9 @@
                 
               
 
-              <time title="Created: 2018-10-11 16:16:43 / Modified: 16:34:50" itemprop="dateCreated datePublished" datetime="2018-10-11T16:16:43+02:00">2018-10-11</time>
+              <time title="Created: 2018-11-09 09:41:48" itemprop="dateCreated datePublished" datetime="2018-11-09T09:41:48+01:00">2018-11-09</time>
             
 
-            
-              
-
-              
             
           </span>
 
@@ -378,24 +369,7 @@
       
 
       
-        <blockquote>
-<p>面向服务的架构是一种设计方法，其中包含多个服务，而服务之间通过配合最终会提供一系列功能。一个服务通常以独立的形式存在于操作系统进程中。<strong>服务之间通过网络调用，而非采用进程调用。</strong></p>
-<p>​                                                                                                                                                       From 微服务架构</p>
-</blockquote>
-<h2 id="SOA（Service-Oriented-Architecture）"><a href="#SOA（Service-Oriented-Architecture）" class="headerlink" title="SOA（Service-Oriented Architecture）"></a>SOA（Service-Oriented Architecture）</h2><p>如下图，图中有三个服务：Service1: Credit Check Service、Sevice2：Home Appraisal Service 以及 Service3: Loan Approval Service。其中Service1和Service2相互独立，Service3依赖于Service1和Service2。之后，有趣的事情发生了，Client获取到Service3的服务是通过网络调用实现的。<strong>Service3获取Service1和Service2的服务也是通过网络调用实现的。</strong>也就是说Service3和Client在获取服务方面并没有区别。</p>
-<p><img src="/images/SOA.png" alt="SOA"></p>
-<h2 id="SOAP、WSDL和UDDI"><a href="#SOAP、WSDL和UDDI" class="headerlink" title="SOAP、WSDL和UDDI"></a>SOAP、WSDL和UDDI</h2><ol>
-<li><p>SOAP: Simple Object Access Protocol</p>
-<p>Protocole de communication serveur à serveur 交换信息时所用的协议</p>
-</li>
-<li><p>WSDL: Web Services Description Language</p>
-<p>Langage de description de contrat de service    服务的描述</p>
-</li>
-<li><p>UDDI:  Universal Description Discovery and Integration</p>
-<p>Registre pour publication et découverte de service  服务的注册和发现规范</p>
-</li>
-</ol>
-
+        
       
     </div>
 
@@ -422,8 +396,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/10/10/Map-Reduce实现SELECT语句/" rel="next" title="Map-Reduce实现SELECT语句">
-                <i class="fa fa-chevron-left"></i> Map-Reduce实现SELECT语句
+              <a href="/2018/11/05/如何添加新硬盘/" rel="next" title="如何添加新硬盘?">
+                <i class="fa fa-chevron-left"></i> 如何添加新硬盘?
               </a>
             
           </div>
@@ -431,10 +405,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/10/13/特隆、乌尔巴克、奥比斯·特蒂乌斯/" rel="prev" title="特隆、乌尔巴克、奥比斯·特蒂乌斯">
-                特隆、乌尔巴克、奥比斯·特蒂乌斯 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -479,17 +449,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -575,22 +536,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SOA（Service-Oriented-Architecture）"><span class="nav-number">1.</span> <span class="nav-text">SOA（Service-Oriented Architecture）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SOAP、WSDL和UDDI"><span class="nav-number">2.</span> <span class="nav-text">SOAP、WSDL和UDDI</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
