@@ -108,22 +108,22 @@
 
 
 
-  <meta name="description" content="第三部分:虚拟机执行子系统 字节码文件是虚拟机执行引擎的数据入口，是虚拟机的语言无关性和平台无关性的基石。  [TOC] Class类文件结构 Class文件是一组以8位字节为基础单位的二进制流，其中包括两种数据类型：无符号数和表。    类型 名称 数量     U4 Magic 1   U2 Minor_version 1   U2 Major_version 1   U2 Constant_">
+  <meta name="description" content="第三部分:虚拟机执行子系统 字节码文件是虚拟机执行引擎的数据入口，是虚拟机的语言无关性和平台无关性的基石。  Class类文件结构 Class文件是一组以8位字节为基础单位的二进制流，其中包括两种数据类型：无符号数和表。    类型 名称 数量     U4 Magic 1   U2 Minor_version 1   U2 Major_version 1   U2 Constant_pool_c">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Qi&#39;s Blog">
 <meta property="og:url" content="http://yoursite.com/2018/10/30/《深入理解JAVA虚拟机》笔记2/index.html">
 <meta property="og:site_name" content="Qi&#39;s Blog">
-<meta property="og:description" content="第三部分:虚拟机执行子系统 字节码文件是虚拟机执行引擎的数据入口，是虚拟机的语言无关性和平台无关性的基石。  [TOC] Class类文件结构 Class文件是一组以8位字节为基础单位的二进制流，其中包括两种数据类型：无符号数和表。    类型 名称 数量     U4 Magic 1   U2 Minor_version 1   U2 Major_version 1   U2 Constant_">
+<meta property="og:description" content="第三部分:虚拟机执行子系统 字节码文件是虚拟机执行引擎的数据入口，是虚拟机的语言无关性和平台无关性的基石。  Class类文件结构 Class文件是一组以8位字节为基础单位的二进制流，其中包括两种数据类型：无符号数和表。    类型 名称 数量     U4 Magic 1   U2 Minor_version 1   U2 Major_version 1   U2 Constant_pool_c">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/images/JVM2.1.png">
 <meta property="og:image" content="http://yoursite.com/images/JVM2.2.png">
 <meta property="og:image" content="http://yoursite.com/images/JVM2.3.png">
 <meta property="og:image" content="http://yoursite.com/images/JVM2.5.png">
 <meta property="og:image" content="http://yoursite.com/images/JVM2.6.png">
-<meta property="og:updated_time" content="2018-11-09T08:38:18.218Z">
+<meta property="og:updated_time" content="2018-11-09T08:40:34.811Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Qi&#39;s Blog">
-<meta name="twitter:description" content="第三部分:虚拟机执行子系统 字节码文件是虚拟机执行引擎的数据入口，是虚拟机的语言无关性和平台无关性的基石。  [TOC] Class类文件结构 Class文件是一组以8位字节为基础单位的二进制流，其中包括两种数据类型：无符号数和表。    类型 名称 数量     U4 Magic 1   U2 Minor_version 1   U2 Major_version 1   U2 Constant_">
+<meta name="twitter:description" content="第三部分:虚拟机执行子系统 字节码文件是虚拟机执行引擎的数据入口，是虚拟机的语言无关性和平台无关性的基石。  Class类文件结构 Class文件是一组以8位字节为基础单位的二进制流，其中包括两种数据类型：无符号数和表。    类型 名称 数量     U4 Magic 1   U2 Minor_version 1   U2 Major_version 1   U2 Constant_pool_c">
 <meta name="twitter:image" content="http://yoursite.com/images/JVM2.1.png">
 
 
@@ -361,7 +361,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2018-11-09 09:38:18" itemprop="dateModified" datetime="2018-11-09T09:38:18+01:00">2018-11-09</time>
+                <time title="Modified: 2018-11-09 09:40:34" itemprop="dateModified" datetime="2018-11-09T09:40:34+01:00">2018-11-09</time>
               
             
           </span>
@@ -397,7 +397,6 @@
         <h2 id="第三部分-虚拟机执行子系统"><a href="#第三部分-虚拟机执行子系统" class="headerlink" title="第三部分:虚拟机执行子系统"></a>第三部分:虚拟机执行子系统</h2><blockquote>
 <p>字节码文件是虚拟机执行引擎的数据入口，是虚拟机的语言无关性和平台无关性的基石。</p>
 </blockquote>
-<p>[TOC]</p>
 <h3 id="Class类文件结构"><a href="#Class类文件结构" class="headerlink" title="Class类文件结构"></a>Class类文件结构</h3><p> Class文件是一组以8位字节为基础单位的二进制流，其中包括两种数据类型：<font color="#B01D1D">无符号数和表</font>。</p>
 <table>
 <thead>
