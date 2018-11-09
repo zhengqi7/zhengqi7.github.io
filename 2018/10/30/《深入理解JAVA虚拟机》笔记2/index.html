@@ -108,22 +108,22 @@
 
 
 
-  <meta name="description" content="第三部分:虚拟机执行子系统 字节码文件是虚拟机执行引擎的数据入口，是虚拟机的语言无关性和平台无关性的基石。  Class类文件结构 Class文件是一组以8位字节为基础单位的二进制流，其中包括两种数据类型：无符号数和表。    类型 名称 数量     U4 Magic 1   U2 Minor_version 1   U2 Major_version 1   U2 Constant_pool_c">
+  <meta name="description" content="字节码文件是虚拟机执行引擎的数据入口，是虚拟机的语言无关性和平台无关性的基石。  Class类文件结构 Class文件是一组以8位字节为基础单位的二进制流，其中包括两种数据类型：无符号数和表。    类型 名称 数量     U4 Magic 1   U2 Minor_version 1   U2 Major_version 1   U2 Constant_pool_count 1   Cp_i">
 <meta property="og:type" content="article">
-<meta property="og:title" content="《深入理解Java虚拟机》笔记2">
+<meta property="og:title" content="深入理解Java虚拟机：虚拟机执行子系统">
 <meta property="og:url" content="http://yoursite.com/2018/10/30/《深入理解JAVA虚拟机》笔记2/index.html">
 <meta property="og:site_name" content="Qi&#39;s Blog">
-<meta property="og:description" content="第三部分:虚拟机执行子系统 字节码文件是虚拟机执行引擎的数据入口，是虚拟机的语言无关性和平台无关性的基石。  Class类文件结构 Class文件是一组以8位字节为基础单位的二进制流，其中包括两种数据类型：无符号数和表。    类型 名称 数量     U4 Magic 1   U2 Minor_version 1   U2 Major_version 1   U2 Constant_pool_c">
+<meta property="og:description" content="字节码文件是虚拟机执行引擎的数据入口，是虚拟机的语言无关性和平台无关性的基石。  Class类文件结构 Class文件是一组以8位字节为基础单位的二进制流，其中包括两种数据类型：无符号数和表。    类型 名称 数量     U4 Magic 1   U2 Minor_version 1   U2 Major_version 1   U2 Constant_pool_count 1   Cp_i">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/images/JVM2.1.png">
 <meta property="og:image" content="http://yoursite.com/images/JVM2.2.png">
 <meta property="og:image" content="http://yoursite.com/images/JVM2.3.png">
 <meta property="og:image" content="http://yoursite.com/images/JVM2.5.png">
 <meta property="og:image" content="http://yoursite.com/images/JVM2.6.png">
-<meta property="og:updated_time" content="2018-11-09T08:47:24.451Z">
+<meta property="og:updated_time" content="2018-11-09T09:08:25.609Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="《深入理解Java虚拟机》笔记2">
-<meta name="twitter:description" content="第三部分:虚拟机执行子系统 字节码文件是虚拟机执行引擎的数据入口，是虚拟机的语言无关性和平台无关性的基石。  Class类文件结构 Class文件是一组以8位字节为基础单位的二进制流，其中包括两种数据类型：无符号数和表。    类型 名称 数量     U4 Magic 1   U2 Minor_version 1   U2 Major_version 1   U2 Constant_pool_c">
+<meta name="twitter:title" content="深入理解Java虚拟机：虚拟机执行子系统">
+<meta name="twitter:description" content="字节码文件是虚拟机执行引擎的数据入口，是虚拟机的语言无关性和平台无关性的基石。  Class类文件结构 Class文件是一组以8位字节为基础单位的二进制流，其中包括两种数据类型：无符号数和表。    类型 名称 数量     U4 Magic 1   U2 Minor_version 1   U2 Major_version 1   U2 Constant_pool_count 1   Cp_i">
 <meta name="twitter:image" content="http://yoursite.com/images/JVM2.1.png">
 
 
@@ -141,7 +141,7 @@
   };
 </script>
 
-  <title>《深入理解Java虚拟机》笔记2 | Qi's Blog</title>
+  <title>深入理解Java虚拟机：虚拟机执行子系统 | Qi's Blog</title>
   
 
 
@@ -319,7 +319,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">《深入理解Java虚拟机》笔记2
+          <h1 class="post-title" itemprop="name headline">深入理解Java虚拟机：虚拟机执行子系统
               
             
           </h1>
@@ -361,7 +361,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2018-11-09 09:47:24" itemprop="dateModified" datetime="2018-11-09T09:47:24+01:00">2018-11-09</time>
+                <time title="Modified: 2018-11-09 10:08:25" itemprop="dateModified" datetime="2018-11-09T10:08:25+01:00">2018-11-09</time>
               
             
           </span>
@@ -394,7 +394,7 @@
       
 
       
-        <h2 id="第三部分-虚拟机执行子系统"><a href="#第三部分-虚拟机执行子系统" class="headerlink" title="第三部分:虚拟机执行子系统"></a>第三部分:虚拟机执行子系统</h2><blockquote>
+        <blockquote>
 <p>字节码文件是虚拟机执行引擎的数据入口，是虚拟机的语言无关性和平台无关性的基石。</p>
 </blockquote>
 <h3 id="Class类文件结构"><a href="#Class类文件结构" class="headerlink" title="Class类文件结构"></a>Class类文件结构</h3><p> Class文件是一组以8位字节为基础单位的二进制流，其中包括两种数据类型：<font color="#B01D1D">无符号数和表</font>。</p>
@@ -851,8 +851,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/10/30/《深入理解Java虚拟机》笔记1/" rel="next" title="《深入理解Java虚拟机》笔记1">
-                <i class="fa fa-chevron-left"></i> 《深入理解Java虚拟机》笔记1
+              <a href="/2018/10/30/《深入理解Java虚拟机》笔记1/" rel="next" title="深入理解Java虚拟机：自动内存管理">
+                <i class="fa fa-chevron-left"></i> 深入理解Java虚拟机：自动内存管理
               </a>
             
           </div>
@@ -1014,7 +1014,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第三部分-虚拟机执行子系统"><span class="nav-number">1.</span> <span class="nav-text">第三部分:虚拟机执行子系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Class类文件结构"><span class="nav-number">1.1.</span> <span class="nav-text">Class类文件结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#magic与version"><span class="nav-number">1.1.1.</span> <span class="nav-text">magic与version</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#constant-pool"><span class="nav-number">1.1.2.</span> <span class="nav-text">constant_pool</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#access-flag"><span class="nav-number">1.1.3.</span> <span class="nav-text">access_flag</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#this-class、super-class、interfaces"><span class="nav-number">1.1.4.</span> <span class="nav-text">this_class、super_class、interfaces</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fields"><span class="nav-number">1.1.5.</span> <span class="nav-text">fields</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#methods"><span class="nav-number">1.1.6.</span> <span class="nav-text">methods</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#attributes"><span class="nav-number">1.1.7.</span> <span class="nav-text">attributes</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字节码指令"><span class="nav-number">1.2.</span> <span class="nav-text">字节码指令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字节码与数据类型"><span class="nav-number">1.2.1.</span> <span class="nav-text">字节码与数据类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#加载和存储指令"><span class="nav-number">1.2.2.</span> <span class="nav-text">加载和存储指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算术指令"><span class="nav-number">1.2.3.</span> <span class="nav-text">算术指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类型转换指令"><span class="nav-number">1.2.4.</span> <span class="nav-text">类型转换指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对象创建与访问指令"><span class="nav-number">1.2.5.</span> <span class="nav-text">对象创建与访问指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#操作数栈管理指令"><span class="nav-number">1.2.6.</span> <span class="nav-text">操作数栈管理指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#控制转移指令"><span class="nav-number">1.2.7.</span> <span class="nav-text">控制转移指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法调用和返回指令"><span class="nav-number">1.2.8.</span> <span class="nav-text">方法调用和返回指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常处理指令"><span class="nav-number">1.2.9.</span> <span class="nav-text">异常处理指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#同步指令"><span class="nav-number">1.2.10.</span> <span class="nav-text">同步指令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟机类加载机制"><span class="nav-number">1.3.</span> <span class="nav-text">虚拟机类加载机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#类的加载过程"><span class="nav-number">1.3.1.</span> <span class="nav-text">类的加载过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类的加载时机"><span class="nav-number">1.3.2.</span> <span class="nav-text">类的加载时机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类的加载器"><span class="nav-number">1.3.3.</span> <span class="nav-text">类的加载器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟机字节码执行引擎"><span class="nav-number">1.4.</span> <span class="nav-text">虚拟机字节码执行引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#运行时栈帧的结构"><span class="nav-number">1.4.1.</span> <span class="nav-text">运行时栈帧的结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法调用"><span class="nav-number">1.4.2.</span> <span class="nav-text">方法调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于栈的字节码解释执行引擎"><span class="nav-number">1.4.3.</span> <span class="nav-text">基于栈的字节码解释执行引擎</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Class类文件结构"><span class="nav-number">1.</span> <span class="nav-text">Class类文件结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#magic与version"><span class="nav-number">1.1.</span> <span class="nav-text">magic与version</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#constant-pool"><span class="nav-number">1.2.</span> <span class="nav-text">constant_pool</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#access-flag"><span class="nav-number">1.3.</span> <span class="nav-text">access_flag</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#this-class、super-class、interfaces"><span class="nav-number">1.4.</span> <span class="nav-text">this_class、super_class、interfaces</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fields"><span class="nav-number">1.5.</span> <span class="nav-text">fields</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#methods"><span class="nav-number">1.6.</span> <span class="nav-text">methods</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#attributes"><span class="nav-number">1.7.</span> <span class="nav-text">attributes</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字节码指令"><span class="nav-number">2.</span> <span class="nav-text">字节码指令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字节码与数据类型"><span class="nav-number">2.1.</span> <span class="nav-text">字节码与数据类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#加载和存储指令"><span class="nav-number">2.2.</span> <span class="nav-text">加载和存储指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算术指令"><span class="nav-number">2.3.</span> <span class="nav-text">算术指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类型转换指令"><span class="nav-number">2.4.</span> <span class="nav-text">类型转换指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对象创建与访问指令"><span class="nav-number">2.5.</span> <span class="nav-text">对象创建与访问指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#操作数栈管理指令"><span class="nav-number">2.6.</span> <span class="nav-text">操作数栈管理指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#控制转移指令"><span class="nav-number">2.7.</span> <span class="nav-text">控制转移指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法调用和返回指令"><span class="nav-number">2.8.</span> <span class="nav-text">方法调用和返回指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常处理指令"><span class="nav-number">2.9.</span> <span class="nav-text">异常处理指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#同步指令"><span class="nav-number">2.10.</span> <span class="nav-text">同步指令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟机类加载机制"><span class="nav-number">3.</span> <span class="nav-text">虚拟机类加载机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#类的加载过程"><span class="nav-number">3.1.</span> <span class="nav-text">类的加载过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类的加载时机"><span class="nav-number">3.2.</span> <span class="nav-text">类的加载时机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类的加载器"><span class="nav-number">3.3.</span> <span class="nav-text">类的加载器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟机字节码执行引擎"><span class="nav-number">4.</span> <span class="nav-text">虚拟机字节码执行引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#运行时栈帧的结构"><span class="nav-number">4.1.</span> <span class="nav-text">运行时栈帧的结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法调用"><span class="nav-number">4.2.</span> <span class="nav-text">方法调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于栈的字节码解释执行引擎"><span class="nav-number">4.3.</span> <span class="nav-text">基于栈的字节码解释执行引擎</span></a></li></ol></li></ol></div>
             
 
           </div>
