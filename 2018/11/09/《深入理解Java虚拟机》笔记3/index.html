@@ -108,14 +108,19 @@
 
 
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="早期（编译期）优化Java语言中编译器有很多种，其中包括：  前端编译器：如Javac，从.java文件生成.class文件； JIT编译器：如HotSpot VM的C1、C2编译器，从字节码生成生成机器码。  前端编译器的优化措施主要是改善开发人员的编程风格，提高编码效率，JIT编译器的优化主要是为了提高运行效率。 Javac编译器 解析与填充符号表  词法分析：将源代码的字符流转变为 Toke">
+<meta property="og:type" content="article">
 <meta property="og:title" content="深入理解Java虚拟机：程序编译和代码优化">
 <meta property="og:url" content="http://yoursite.com/2018/11/09/《深入理解Java虚拟机》笔记3/index.html">
 <meta property="og:site_name" content="Qi&#39;s Blog">
+<meta property="og:description" content="早期（编译期）优化Java语言中编译器有很多种，其中包括：  前端编译器：如Javac，从.java文件生成.class文件； JIT编译器：如HotSpot VM的C1、C2编译器，从字节码生成生成机器码。  前端编译器的优化措施主要是改善开发人员的编程风格，提高编码效率，JIT编译器的优化主要是为了提高运行效率。 Javac编译器 解析与填充符号表  词法分析：将源代码的字符流转变为 Toke">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-11-09T09:08:54.028Z">
+<meta property="og:image" content="http://yoursite.com/Users/qi7/Desktop/JVM3.1.png">
+<meta property="og:updated_time" content="2018-11-09T09:57:04.466Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解Java虚拟机：程序编译和代码优化">
+<meta name="twitter:description" content="早期（编译期）优化Java语言中编译器有很多种，其中包括：  前端编译器：如Javac，从.java文件生成.class文件； JIT编译器：如HotSpot VM的C1、C2编译器，从字节码生成生成机器码。  前端编译器的优化措施主要是改善开发人员的编程风格，提高编码效率，JIT编译器的优化主要是为了提高运行效率。 Javac编译器 解析与填充符号表  词法分析：将源代码的字符流转变为 Toke">
+<meta name="twitter:image" content="http://yoursite.com/Users/qi7/Desktop/JVM3.1.png">
 
 
 
@@ -335,7 +340,7 @@
                 
               
 
-              <time title="Created: 2018-11-09 09:41:48 / Modified: 10:08:54" itemprop="dateCreated datePublished" datetime="2018-11-09T09:41:48+01:00">2018-11-09</time>
+              <time title="Created: 2018-11-09 09:41:48 / Modified: 10:57:04" itemprop="dateCreated datePublished" datetime="2018-11-09T09:41:48+01:00">2018-11-09</time>
             
 
             
@@ -373,7 +378,41 @@
       
 
       
-        
+        <h3 id="早期（编译期）优化"><a href="#早期（编译期）优化" class="headerlink" title="早期（编译期）优化"></a>早期（编译期）优化</h3><p>Java语言中编译器有很多种，其中包括：</p>
+<ol>
+<li>前端编译器：如Javac，从.java文件生成.class文件；</li>
+<li>JIT编译器：如HotSpot VM的C1、C2编译器，从字节码生成生成机器码。</li>
+</ol>
+<p>前端编译器的优化措施主要是改善开发人员的编程风格，提高编码效率，JIT编译器的优化主要是为了提高运行效率。</p>
+<h4 id="Javac编译器"><a href="#Javac编译器" class="headerlink" title="Javac编译器"></a>Javac编译器</h4><p><img src="/Users/qi7/Desktop/JVM3.1.png" alt="屏幕快照 2018-11-09 上午10.13.26"></p>
+<p><strong>解析与填充符号表</strong></p>
+<ul>
+<li><p>词法分析：将源代码的字符流转变为 Token 集合。例如：<code>int a=b+2</code> 包含了六个 token：int、a、=、b、+、2.</p>
+</li>
+<li><p>语法分析：根据 Token 序列构造抽象语法树（Abstract Sytax Tree，AST）的过程。</p>
+</li>
+<li><p>填充符号表：是将前面分析的结构填入符号表（Symbol Table）的过程</p>
+</li>
+</ul>
+<p><strong>注解处理器</strong></p>
+<p>注解处理器可以看作是编译器的插件，它可以根据我们的注解，修改 AST 的任意元素，修改完之后会再回到前面的过程，反复直到没有再对 AST 的修改为止。开发人员可以通过注解处理器完成很多原本需要在编码中完成的事情。</p>
+<p><strong>语义分析和字节码生成</strong></p>
+<p>获得的 AST 只能保证结构正确，语义分析的主要任务就是对源程序上下文有关的性质进行审查。</p>
+<ul>
+<li><p>标注检查</p>
+<p>变量是否在使用前被声明、变量和赋值类型是否匹配等。其中有一个重要过程叫「常量折叠」，例如代码中定义的 <code>int a = 1 + 2;</code>，在编译之后，得到的是 <code>int a = 3;</code>。因此在代码里定义前者不会有任何运行时的性能损失，但有时能带来更好的阅读性。</p>
+</li>
+<li><p>数据及控制流分析</p>
+<p>检查方法的每条路径是否都有返回值、是否所有受检查的异常都被正常处理等。</p>
+</li>
+<li><p>解析语法糖</p>
+<p>泛型擦除、自动装箱拆箱、遍历循环、变长参数、枚举类、内部类等。</p>
+</li>
+<li><p>字节码生成</p>
+<p>编译器不仅把前面的获得的信息转化为字节码，还会添加少量的代码。如类构造器 <code>&lt;clinit&gt;()</code> 方法和实例构造器 <code>&lt;init&gt;()</code>。完成了所有的调整之后，最后可以用 com.sun.tools.javac.jvm.ClassWrite 类的 writeClass() 方法输出字节码，生成最终的 Class 文件。</p>
+</li>
+</ul>
+<h3 id="晚期（运行期）优化"><a href="#晚期（运行期）优化" class="headerlink" title="晚期（运行期）优化"></a>晚期（运行期）优化</h3>
       
     </div>
 
@@ -453,8 +492,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -540,6 +588,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#早期（编译期）优化"><span class="nav-number">1.</span> <span class="nav-text">早期（编译期）优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Javac编译器"><span class="nav-number">1.1.</span> <span class="nav-text">Javac编译器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#晚期（运行期）优化"><span class="nav-number">2.</span> <span class="nav-text">晚期（运行期）优化</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
