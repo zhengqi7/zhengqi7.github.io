@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.1" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.4.1',
+    sidebar: {"position":"left","display":"hide","offset":15,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Java内存模型Java内存模型的主要目标是定义程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存中取出变量这样的底层细节。 变量是指实例字段、方法字段或引用的对象，不包括局部变量、方法参数，因为他们是线程私有的。 主内存和工作内存Java内存模型规定所有的变量都存储在主内存中，主内存是java虚拟机内存的一部分，每个线程还有自己的工作内存。线程的工作内存保存了被该线程使用到的变量的主">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解Java虚拟机：高效并发">
+<meta property="og:url" content="http://yoursite.com/2018/11/09/《深入理解Java虚拟机》笔记4/index.html">
+<meta property="og:site_name" content="Qi&#39;s Blog">
+<meta property="og:description" content="Java内存模型Java内存模型的主要目标是定义程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存中取出变量这样的底层细节。 变量是指实例字段、方法字段或引用的对象，不包括局部变量、方法参数，因为他们是线程私有的。 主内存和工作内存Java内存模型规定所有的变量都存储在主内存中，主内存是java虚拟机内存的一部分，每个线程还有自己的工作内存。线程的工作内存保存了被该线程使用到的变量的主">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/images/JVM4.1.png">
+<meta property="og:updated_time" content="2018-11-11T13:04:11.492Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入理解Java虚拟机：高效并发">
+<meta name="twitter:description" content="Java内存模型Java内存模型的主要目标是定义程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存中取出变量这样的底层细节。 变量是指实例字段、方法字段或引用的对象，不包括局部变量、方法参数，因为他们是线程私有的。 主内存和工作内存Java内存模型规定所有的变量都存储在主内存中，主内存是java虚拟机内存的一部分，每个线程还有自己的工作内存。线程的工作内存保存了被该线程使用到的变量的主">
+<meta name="twitter:image" content="http://yoursite.com/images/JVM4.1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/09/《深入理解Java虚拟机》笔记4/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>深入理解Java虚拟机：高效并发 | Qi's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Qi's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/09/《深入理解Java虚拟机》笔记4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng7">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Qi's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深入理解Java虚拟机：高效并发
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-11-09 13:36:01" itemprop="dateCreated datePublished" datetime="2018-11-09T13:36:01+01:00">2018-11-09</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-11-11 14:04:11" itemprop="dateModified" datetime="2018-11-11T14:04:11+01:00">2018-11-11</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Java内存模型"><a href="#Java内存模型" class="headerlink" title="Java内存模型"></a>Java内存模型</h3><p>Java内存模型的主要目标是定义程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存中取出变量这样的底层细节。</p>
+<p><em>变量是指实例字段、方法字段或引用的对象，不包括局部变量、方法参数，因为他们是线程私有的。</em></p>
+<h4 id="主内存和工作内存"><a href="#主内存和工作内存" class="headerlink" title="主内存和工作内存"></a><strong>主内存和工作内存</strong></h4><p>Java内存模型规定所有的变量都存储在主内存中，主内存是java虚拟机内存的一部分，每个线程还有自己的工作内存。线程的工作内存保存了被该线程使用到的变量的主内存副本拷贝，线程对变量的所有操作都必须在工作内存中进行，而不能直接操作主内存。不同线程之间相互隔离。线程间变量值的传递需要通过主内存完成。三者关系如下：</p>
+<p><img src="/images/JVM4.1.png" alt="屏幕快照 2018-11-11 上午11.57.35"></p>
+<h4 id="volatile型变量的特殊规则"><a href="#volatile型变量的特殊规则" class="headerlink" title="volatile型变量的特殊规则"></a><strong>volatile型变量的特殊规则</strong></h4><p>特性：</p>
+<ul>
+<li>保证变量的可见性（当一个线程修改了这个这个变量的值，新值对于其他线程来说可以立即可见）</li>
+<li>禁止指令重排优化</li>
+</ul>
+<p>由于volatile只保证可见性，不保证原子性，因此在不符合以下两条规则运算场景中，我们依然要对操作加锁：</p>
+<ul>
+<li>运算结果不依赖变量的当前值，或者能够保证只有单一的线程修改变量的值。</li>
+<li>变量不需要与其他的状态变量共同参与不变约束。</li>
+</ul>
+<p>换句话说，只用变量只被单一线程修改或变量真正独立于其他变量和自己以前的值时可以只使用volatile而不用进行加锁。</p>
+<h4 id="JMM的特征"><a href="#JMM的特征" class="headerlink" title="JMM的特征"></a><strong>JMM的特征</strong></h4><p>JMM 是围绕并发过程中如何处理原子性、可见性和有序性这三个特征来建立的：</p>
+<ul>
+<li>原子性：JMM 的八种操作都是原子性的，字节码中有 monitorenter 和 monitorexit 来实现大范围的原子性保证，Java 代码中则是 synchronized 关键字。</li>
+<li>可见性：可见性是指当一个线程修改了共享变量的值，其他线程能够立即得知这个修改。普通变量和 volatile 变量都需要在修改后将新值从工作内存同步回主内存，在变量读取前从主内存刷新变量值回工作内存。但 volatile 的特殊规则保证了新值能立即同步到主内存，以及每次使用前立即从主内存刷新。除了 volatile，还有两个关键词能实现可见性：synchronized 和 final。</li>
+<li>有序性：Java 的普通情况下的有序性是：如果在本线程内观察，所有的操作都是有序的；如果在一个线程观察另一个线程，所有的操作都是无序的。前半句指「线程内表现为串行的语义」，后半句指「指令重排序」优化和「工作内存与主内存同步延迟」现象。</li>
+</ul>
+<h4 id="先行发生原则"><a href="#先行发生原则" class="headerlink" title="先行发生原则"></a><strong>先行发生原则</strong></h4><p>先行发生原则是判断数据是否竞争、线程是否安全的主要依据。</p>
+<p>「先行发生」原则是什么？</p>
+<p>先行发生是Java内存模型中定义的两项操作之间的偏序关系，如果说操作A先行发生于操作B，其实就是说在操作B之前，操作A产生的影响能被操作B观察到。</p>
+<ul>
+<li>程序次序规则：在一个线程中，按照程序代码顺序，书写在前面的操作先发生。</li>
+<li>管程锁定规则：一个unlock操作先行发生于后面对同一个锁的lock操作。</li>
+<li>Volatile变量规则：对一个volatile变量的写操作先行发生于后面对这个变量的读操作。</li>
+<li>线程启动规则：Thread对象的start（）方法先行发生于此线程的每一个动作。</li>
+<li>线程终止规则：Thread对象的所有操作先行发生于此线程的终止检测。可以通过Thread.join( )方法结束、Thread.isAlive( )的返回值等手段检测线程的终止。 （All actions in a thread <em>happen-before</em> any other thread successfully returns from a <code>join()</code> on that thread.）</li>
+<li>线程中断规则：对线程interrupt( )方法的调用先行发生于被中断线程的代码检测到中断事件的发生，可以通过Thread.interrupt( )方法检测线程是否中断。</li>
+</ul>
+<ul>
+<li>对象终结规则：一个对象的初始化完成先行于发生它的finalize（）方法的开始。</li>
+<li>传递性：如果操作A先行于操作B，操作B先行于操作C，那么操作A先行于操作C。</li>
+</ul>
+<p>举个例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> value = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setValue</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.value = value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果线程 A 执行了 setValue(1)，然后线程 B 执行了 getValue()，那么线程 B 得到的返回值是多少？</p>
+<p>首先，我们看这两个方法能否符合任何先行发生原则：</p>
+<ol>
+<li>程序次序规则：这两个方法在不同的线程中执行，因此不适用这个规则</li>
+<li>管程锁定规则：这两个方法中都没有上锁，所以也不适用</li>
+<li>volatile 变量原则：没有 volatile 修饰，显然不适用</li>
+<li>剩下的原则都显然不适用</li>
+</ol>
+<p>所以这两个方法不符合任何先行发生原则，所以即使线程 A 的 setValue(1) 在时间上确实早于线程 B 的 getValue()，线程 B 的返回结果还是不确定的。</p>
+<p>修复这个问题的思路就是让这两个方法符合其中一种先行发生原则，所以至少有两种简单的方案：</p>
+<ol>
+<li>将 getter/setter 都定义为 synchronized，这样就符合第二条规则</li>
+<li>将 value 定义为 volatile 变量，这样就符合第三条规则</li>
+</ol>
+<h3 id="Java线程"><a href="#Java线程" class="headerlink" title="Java线程"></a>Java线程</h3><h4 id="线程的实现"><a href="#线程的实现" class="headerlink" title="线程的实现"></a>线程的实现</h4><p>线程是 CPU 调度的基本单位，一个进程可以有多个线程，各个线程可以共享进程资源（内存地址、文件 I/O 等）。实现线程主要有三种方式：</p>
+<ol>
+<li>使用内核线程实现：程序调用的是内核线程的一种高级接口 - 轻量级进程。这种方式系统资源消耗较大，需要系统调用（系统调用需要在用户态和内核态之间来回切换），并且轻量级进程的数量是有限的。</li>
+<li>使用用户线程实现：用户线程的建立、同步、销毁和调度都在用户态中完成，优势是不需要内核的帮助，资源消耗低，劣势也同样是没有内核支援，自己处理线程操作比较复杂。Java 曾经使用过，后来放弃了。</li>
+<li>使用用户线程加轻量级进程混合实现：用户线程和轻量级进程的数量是 N : M 的关系。</li>
+<li>Java 线程的实现：Java 在 Windows 和 Linux 下都是一对一的线程模型实现，一条 Java 线程就映射到一条轻量级进程之中。</li>
+</ol>
+<h4 id="Java-线程调度"><a href="#Java-线程调度" class="headerlink" title="Java 线程调度"></a>Java 线程调度</h4><p>线程调度方式主要有两种：</p>
+<ul>
+<li>协同式线程调度：线程的执行时间由线程本身来控制，线程把自己的工作执行完了之后，要主动通知系统切换到另一个线程上。这种方式相当不稳定，如果一个进程坚持不让出 CPU 执行时间，就会导致系统崩溃。</li>
+<li>抢占式线程调度：每个线程将由系统来分配执行时间，线程的切换不由线程本身来决定。Java 采用这种方式。</li>
+</ul>
+<p>线程优先级一般不太靠谱，原因是 Java 的线程是映射到系统的原生线程上来的，线程的调度最终还是取决于操作系统。</p>
+<h4 id="状态转换"><a href="#状态转换" class="headerlink" title="状态转换"></a>状态转换</h4><p>Java 总共定义了五种线程状态：</p>
+<ul>
+<li>新建（New）：创建了但未启动</li>
+<li>运行（Runable）：包括了操作系统线程状态中的 Running 和 Ready</li>
+<li>无限期等待（Waiting）：处于这种状态的线程不会被分配 CPU 执行时间，它们要等待被其他线程显式地唤醒。以下方法会触发该状态：<ul>
+<li>没有设置 Timeout 参数的 Object.wait()</li>
+<li>没有设置 Timeout 参数的 Thread.join()</li>
+<li>LockSupport.park()</li>
+</ul>
+</li>
+<li>限期等待（Timed Waiting）：处于这种状态的线程也不会被分配 CPU 执行时间，但系统在一定时间后会自动唤醒它。以下方法会触发该状态：<ul>
+<li>Thread.sleep()</li>
+<li>设置 Timeout 参数的 Object.wait()</li>
+<li>设置 Timeout 参数的 Thread.join()</li>
+<li>LockSupport.parkNanos()</li>
+<li>LockSupport.parkUntil()</li>
+</ul>
+</li>
+<li>阻塞（Blocked）：阻塞状态下是在等待着获取一个排他锁，在程序等待进入同步区域的时候，线程将进入这个状态</li>
+<li>结束（Terminated）：线程已经结束执行</li>
+</ul>
+<p><a href="http://zhengqi7.com/2018/10/04/线程的状态/" target="_blank" rel="noopener">http://zhengqi7.com/2018/10/04/线程的状态/</a></p>
+<h3 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h3><h4 id="安全程度"><a href="#安全程度" class="headerlink" title="安全程度"></a>安全程度</h4><p>可以将 Java 中共享数据按照安全程度分为：</p>
+<ol>
+<li>不可变：不可变的对象一定是线程安全的。如果共享数据是基本数据类型，则只要用 final 来定义就可以保证不可变；如果共享数据是对象，除了 final 定义，还要保证对象的行为不会对其状态产生任何影响（譬如 String 类的 substring、replace、concat 方法都是返回一个新的 String 对象，而不会改变对象原来的状态），这种保证最简单的实现方式是把对象中所有带状态的变量都声明为 final。</li>
+<li>绝对线程安全：这种一般很难实现，即使一个对象所有的方法都是同步的，如果这些方法组合之后，就有可能失去原子性，不是线程安全的。</li>
+<li>相对线程安全：它只需要保证对这个对象单独的操作是线程安全的，但对于一些特定顺序的连续调用，还是需要额外的同步手段的。</li>
+<li>线程兼容：这个指的是对象本身不是线程安全的，但我们可以通过使用同步手段或线程封闭，来实现线程安全。</li>
+<li>线程对立：这个指的是无论调用端采取何种同步措施，都是无法在并发环境下使用的。</li>
+</ol>
+<h4 id="线程安全的实现方法"><a href="#线程安全的实现方法" class="headerlink" title="线程安全的实现方法"></a>线程安全的实现方法</h4><h5 id="互斥同步"><a href="#互斥同步" class="headerlink" title="互斥同步"></a>互斥同步</h5><p>Java 中，synchronized 是最基本的互斥同步手段。有两种使用方式：</p>
+<ol>
+<li>synchronized (obj) {} 代码块，明确指名对象参数</li>
+<li>用 synchronized 修饰实例方法或类方法，自动取方法所在的对象实例或 Class 对象作为锁对象</li>
+</ol>
+<p>除了 synchronized，还有 ReentrantLock 可以实现同步，两者现在的性能相近，它主要有几个高级功能：</p>
+<ol>
+<li>等待可中断，如果等待的线程长期获得不到锁，可以放弃改为处理其他事。</li>
+<li>实现公平锁，公平锁是指当多个线程等待同一个锁的时候，必须按照申请锁的时间顺序依次获得锁。synchronized 的锁是非公平的。但是公平性会把性能降低约两个数量级，不必要的话，不要为公平性付出代价。</li>
+<li>锁可以绑定多个条件 。</li>
+</ol>
+<p><strong>非互斥同步</strong></p>
+<p>互斥同步最大的问题就是线程阻塞和唤醒所带来的性能问题，因此这种同步也成为阻塞同步。</p>
+<p>从策略上来讲，互斥同步属于「悲观」的并发策略，因为不论共享数据是否真的会发生竞争，都要上锁。对应的还有一种「乐观」的基于冲突检测的并发策略：不上锁，先进行操作，如果没有数据竞争，操作就成功了，如果检测到有冲突，就采取补偿措施（常见的就是不断重试）。这种乐观的并发策略一般不需要把线程挂起，所以称为非阻塞同步（Non-Blocking Synchronization）。</p>
+<p>乐观策略实现需要硬件指令集的支援，因为我们需要操作和冲突检测这两步具备原子性，要把看起来多次操作的行为只通过一条指令就完成，典型的有 CAS 指令（Compare-and-Swap 比较并交换），简单得说就是在更新的时候，要先检查当前值是否符合预期，如果不符合就不更新。</p>
+<h5 id="无同步方案"><a href="#无同步方案" class="headerlink" title="无同步方案"></a>无同步方案</h5><p>有两类代码天生就是线程安全的：</p>
+<ul>
+<li><p>可重入代码（Reentrant Code）：也叫纯代码（Pure Code），可以在代码执行的任何时刻中断它，转而执行其他代码，控制权返回后，原来的程序不会出现任何错误。可重入代码有共同特征：不依赖存储在堆上的数据和公用的系统资源、用到的状态量都是由参数传入的、不调用非可重入方法。如果一个方法输入相同的数据，永远都能返回相同的结果，那它就是可重入的。</p>
+</li>
+<li><p>线程本地存储（Thread Local Storage）：如果一段代码所需要的数据必须与其他代码共享，那就看看这些共享数据的代码是否能保证在同一个线程内执行，如果能保证，我们就可以把共享税限制在同一个线程之内，这样无须同步也能保证线程之间不会出现数据争用的问题。</p>
+</li>
+</ul>
+<h3 id="锁优化"><a href="#锁优化" class="headerlink" title="锁优化"></a>锁优化</h3><h4 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h4><p>当共享数据的锁定状态只会持续很短的一段时间时，为了这段时间去挂起和恢复线程并不值得。如果物理机器有一个以上的处理器，能让两个或以上的线程同时并行执行，我们就可以让后面请求锁的那个线程 “稍等一下”，但不放弃处理器的执行时间，看看持有锁的线程是否很快就会释放锁。为了让线程等待，我们只需让线程执行一个忙循环（自旋），这项技术就是所谓的自旋锁。自旋的次数可以参数设定，也可以用自适应的自旋锁，自适应这的是会根据运行状况自己调节自旋的次数。</p>
+<h4 id="锁消除"><a href="#锁消除" class="headerlink" title="锁消除"></a>锁消除</h4><p>如果 JIT 编译器探测到一段需要同步的代码，实际不可能存在共享数据竞争，就可能将锁去掉，这种探测主要依赖于逃逸分析。</p>
+<h4 id="锁粗化"><a href="#锁粗化" class="headerlink" title="锁粗化"></a>锁粗化</h4><p>虽然推荐将同步块的作用范围尽量变小，这样执行同步块时间可以缩短，等待锁的时间减少。但是如果同步块出现在循环中，频繁的 lock 和 unlock 也会导致性能损耗。</p>
+<h4 id="轻量级锁和偏向锁"><a href="#轻量级锁和偏向锁" class="headerlink" title="轻量级锁和偏向锁"></a>轻量级锁和偏向锁</h4><p>HotSpot 对象头（Object Header）中有一个 Mark Word，用于实现一些锁标记。</p>
+<p>偏向锁类似轻量级锁，不同点是，这个锁会偏向于第一个获得它的线程，之后如果没有其他线程获取这个锁，则持有偏向锁的线程将永远不需要再进行同步。</p>
+<blockquote>
+<p>Ref :</p>
+<ol>
+<li><p>《深入理解Java虚拟机》周志明著</p>
+</li>
+<li><p><a href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4.5" target="_blank" rel="noopener">Java Language Specification:Chapter17.Threads and Locks</a></p>
+</li>
+<li><p><a href="https://courses.cs.ut.ee/MTAT.03.279/2016_fall/uploads/Main/7-threads-jmm.pdf" target="_blank" rel="noopener">University of Tartu Java Fundamentals(MTAT03.279)</a></p>
+</li>
+</ol>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/09/《深入理解Java虚拟机》笔记3/" rel="next" title="深入理解Java虚拟机：程序编译和代码优化">
+                <i class="fa fa-chevron-left"></i> 深入理解Java虚拟机：程序编译和代码优化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Zheng7</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.douban.com/people/170919375" target="_blank" title="douban"><i class="fa fa-fw fa-globe"></i>douban</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java内存模型"><span class="nav-number">1.</span> <span class="nav-text">Java内存模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#主内存和工作内存"><span class="nav-number">1.1.</span> <span class="nav-text">主内存和工作内存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#volatile型变量的特殊规则"><span class="nav-number">1.2.</span> <span class="nav-text">volatile型变量的特殊规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JMM的特征"><span class="nav-number">1.3.</span> <span class="nav-text">JMM的特征</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#先行发生原则"><span class="nav-number">1.4.</span> <span class="nav-text">先行发生原则</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java线程"><span class="nav-number">2.</span> <span class="nav-text">Java线程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#线程的实现"><span class="nav-number">2.1.</span> <span class="nav-text">线程的实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java-线程调度"><span class="nav-number">2.2.</span> <span class="nav-text">Java 线程调度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#状态转换"><span class="nav-number">2.3.</span> <span class="nav-text">状态转换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程安全"><span class="nav-number">3.</span> <span class="nav-text">线程安全</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安全程度"><span class="nav-number">3.1.</span> <span class="nav-text">安全程度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线程安全的实现方法"><span class="nav-number">3.2.</span> <span class="nav-text">线程安全的实现方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#互斥同步"><span class="nav-number">3.2.1.</span> <span class="nav-text">互斥同步</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#无同步方案"><span class="nav-number">3.2.2.</span> <span class="nav-text">无同步方案</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#锁优化"><span class="nav-number">4.</span> <span class="nav-text">锁优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#自旋锁"><span class="nav-number">4.1.</span> <span class="nav-text">自旋锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#锁消除"><span class="nav-number">4.2.</span> <span class="nav-text">锁消除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#锁粗化"><span class="nav-number">4.3.</span> <span class="nav-text">锁粗化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#轻量级锁和偏向锁"><span class="nav-number">4.4.</span> <span class="nav-text">轻量级锁和偏向锁</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng7</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.4.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

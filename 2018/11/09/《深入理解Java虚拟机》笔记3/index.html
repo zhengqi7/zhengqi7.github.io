@@ -116,7 +116,9 @@
 <meta property="og:description" content="早期（编译期）优化Java语言中编译器有很多种，其中包括：  前端编译器：如Javac，从.java文件生成.class文件； JIT编译器：如HotSpot VM的C1、C2编译器，从字节码生成生成机器码。  前端编译器的优化措施主要是改善开发人员的编程风格，提高编码效率，JIT编译器的优化主要是为了提高运行效率。 Javac编译器 解析与填充符号表  词法分析：将源代码的字符流转变为 Toke">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/images/JVM3.1.png">
-<meta property="og:updated_time" content="2018-11-09T09:57:55.532Z">
+<meta property="og:image" content="http://yoursite.com/images/JVM3.2.png">
+<meta property="og:image" content="http://yoursite.com/images/JVM3.3.png">
+<meta property="og:updated_time" content="2018-11-09T12:29:55.273Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解Java虚拟机：程序编译和代码优化">
 <meta name="twitter:description" content="早期（编译期）优化Java语言中编译器有很多种，其中包括：  前端编译器：如Javac，从.java文件生成.class文件； JIT编译器：如HotSpot VM的C1、C2编译器，从字节码生成生成机器码。  前端编译器的优化措施主要是改善开发人员的编程风格，提高编码效率，JIT编译器的优化主要是为了提高运行效率。 Javac编译器 解析与填充符号表  词法分析：将源代码的字符流转变为 Toke">
@@ -340,7 +342,7 @@
                 
               
 
-              <time title="Created: 2018-11-09 09:41:48 / Modified: 10:57:55" itemprop="dateCreated datePublished" datetime="2018-11-09T09:41:48+01:00">2018-11-09</time>
+              <time title="Created: 2018-11-09 09:41:48 / Modified: 13:29:55" itemprop="dateCreated datePublished" datetime="2018-11-09T09:41:48+01:00">2018-11-09</time>
             
 
             
@@ -412,7 +414,40 @@
 <p>编译器不仅把前面的获得的信息转化为字节码，还会添加少量的代码。如类构造器 <code>&lt;clinit&gt;()</code> 方法和实例构造器 <code>&lt;init&gt;()</code>。完成了所有的调整之后，最后可以用 com.sun.tools.javac.jvm.ClassWrite 类的 writeClass() 方法输出字节码，生成最终的 Class 文件。</p>
 </li>
 </ul>
-<h3 id="晚期（运行期）优化"><a href="#晚期（运行期）优化" class="headerlink" title="晚期（运行期）优化"></a>晚期（运行期）优化</h3>
+<h3 id="晚期（运行期）优化"><a href="#晚期（运行期）优化" class="headerlink" title="晚期（运行期）优化"></a>晚期（运行期）优化</h3><h4 id="即时编译器"><a href="#即时编译器" class="headerlink" title="即时编译器"></a>即时编译器</h4><p><strong>解释器与编译器并存</strong></p>
+<p><img src="/images/JVM3.2.png" alt="屏幕快照 2018-11-09 下午12.24.48"></p>
+<p><strong>触发即时编译</strong></p>
+<p><img src="/images/JVM3.3.png" alt="屏幕快照 2018-11-09 下午12.51.49"></p>
+<h4 id="编译优化技术"><a href="#编译优化技术" class="headerlink" title="编译优化技术"></a>编译优化技术</h4><p>以一段代码为例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">B</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> value；</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> get（）&#123;</span><br><span class="line">        <span class="keyword">return</span> value；</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> foo（）&#123;</span><br><span class="line">    y=b.get（）；</span><br><span class="line">    <span class="comment">//……do stuff……</span></span><br><span class="line">    z=b.get（）；</span><br><span class="line">    sum=y+z；</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在「方法内联（Method Inlining）」之后，一是省去方法的调用成本，二是为其他优化建立良好基础：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> foo（）&#123;</span><br><span class="line">    y=b.value；</span><br><span class="line">    <span class="comment">//……do stuff……</span></span><br><span class="line">    z=b.value；</span><br><span class="line">    sum=y+z；</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在「冗余访问消除（Redundant Loads Elimination）」之后：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> foo（）&#123;</span><br><span class="line">    y=b.value；</span><br><span class="line">    <span class="comment">//……do stuff……</span></span><br><span class="line">    z=y；</span><br><span class="line">    sum=y+z；</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在「复写传播（Copy Propagation）」之后，用 y 来代替 z：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> foo（）&#123;</span><br><span class="line">    y=b.value；</span><br><span class="line">    <span class="comment">//……do stuff……</span></span><br><span class="line">    y=y；</span><br><span class="line">    sum=y+y；</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在「无用代码消除（Dead Code Elimination）」之后：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> foo（）&#123;</span><br><span class="line">    y=b.value；</span><br><span class="line">    <span class="comment">//……do stuff……</span></span><br><span class="line">    sum=y+y；</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其他的经典优化技术还有：</p>
+<p><strong>公共子表达式消除</strong></p>
+<p>譬如有源代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> d =（c * b）* <span class="number">12</span> + a +（a + b * c）；</span><br></pre></td></tr></table></figure>
+<p>由于 <code>c * b</code> 和 <code>b * c</code> 是相同的，并且运算期是不变的，因此可以简化为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> d= E * <span class="number">12</span> + a +（a + E）；</span><br></pre></td></tr></table></figure>
+<p>然后还可能进行一种「代数化简」：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> d= E * <span class="number">13</span> + a * <span class="number">2</span>；</span><br></pre></td></tr></table></figure>
+<p><strong>数据边界检查消除</strong></p>
+<p>由于 Java 访问数组时会自动进行边界检查，但频繁的数组元素访问，会导致频繁的边界检查，造成性能负担。因此 JIT 编译优化的时候，会在某些貌似安全的情况下取消这个检查。譬如说在循环之中，如果循环变量的取值范围在边界以内，就可以取消对访问的边界检查。</p>
+<p><strong>逃逸分析</strong></p>
+<p>如果能证明一个对象不会逃逸到方法或线程之外，也就是别的方法或线程无法通过任何途径访问到这个对象，则可能为这个变量进行一些高效的优化。例如：栈上分配、同步消除。</p>
+<blockquote>
+<p>Ref:</p>
+<ol>
+<li>《深入理解Java虚拟机》周志明著</li>
+<li>yyqian的博客](<a href="http://yyqian.com/post/1455872592672/" target="_blank" rel="noopener">http://yyqian.com/post/1455872592672/</a>)</li>
+</ol>
+</blockquote>
+
       
     </div>
 
@@ -448,6 +483,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/09/《深入理解Java虚拟机》笔记4/" rel="prev" title="深入理解Java虚拟机：高效并发">
+                深入理解Java虚拟机：高效并发 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -517,7 +556,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-count">18</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -598,7 +637,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#早期（编译期）优化"><span class="nav-number">1.</span> <span class="nav-text">早期（编译期）优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Javac编译器"><span class="nav-number">1.1.</span> <span class="nav-text">Javac编译器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#晚期（运行期）优化"><span class="nav-number">2.</span> <span class="nav-text">晚期（运行期）优化</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#早期（编译期）优化"><span class="nav-number">1.</span> <span class="nav-text">早期（编译期）优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Javac编译器"><span class="nav-number">1.1.</span> <span class="nav-text">Javac编译器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#晚期（运行期）优化"><span class="nav-number">2.</span> <span class="nav-text">晚期（运行期）优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#即时编译器"><span class="nav-number">2.1.</span> <span class="nav-text">即时编译器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编译优化技术"><span class="nav-number">2.2.</span> <span class="nav-text">编译优化技术</span></a></li></ol></li></ol></div>
             
 
           </div>
